@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#F3EBDD">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Today — your day, gently planned</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg1:#F6EEE1; --bg2:#F0E4D2; --card:#FFFDF9; --card2:#FBF4E9;
+    --ink:#43392F; --ink-soft:#7A6E60; --ink-faint:#A79A88;
+    --clay:#C97B54; --clay-deep:#B4653F; --sage:#8B9A78; --sage-deep:#6F7F5E;
+    --sand:#E7D8BF; --line:#EADFCB; --peach:#F0C9A8; --gold:#D9A441;
+    --shadow:0 10px 30px rgba(96,72,48,.10); --shadow-sm:0 4px 14px rgba(96,72,48,.08);
+    --r:22px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color:var(--ink);
+    background:linear-gradient(160deg,var(--bg1),var(--bg2));
+    background-attachment:fixed;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    padding:env(safe-area-inset-top) 0 calc(96px + env(safe-area-inset-bottom));
+  }
+  .wrap{max-width:560px;margin:0 auto;padding:22px 18px 8px}
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;margin:0}
+
+  /* Header */
+  .top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}
+  .greet{font-size:15px;color:var(--ink-soft);font-weight:600}
+  .date{font-size:13px;color:var(--ink-faint);margin-top:2px}
+  .streak{
+    display:flex;align-items:center;gap:7px;background:var(--card);
+    border:1px solid var(--line);border-radius:999px;padding:8px 13px;
+    box-shadow:var(--shadow-sm);cursor:default;white-space:nowrap;
+  }
+  .streak .flame{font-size:17px;line-height:1}
+  .streak b{font-family:'Fraunces',serif;font-size:17px}
+  .streak small{font-size:11px;color:var(--ink-faint);font-weight:600}
+
+  /* Quote card */
+  .quote{
+    background:linear-gradient(135deg,#fff8ec,#fbeedd);
+    border:1px solid var(--line);border-radius:var(--r);
+    padding:20px 22px;box-shadow:var(--shadow);margin-bottom:18px;position:relative;overflow:hidden;
+  }
+  .quote::before{content:"\201C";position:absolute;top:-18px;right:14px;font-family:'Fraunces',serif;
+    font-size:110px;color:var(--peach);opacity:.35;line-height:1}
+  .quote p{margin:0;font-family:'Fraunces',serif;font-size:19px;line-height:1.45;font-weight:500;color:var(--ink);position:relative}
+  .quote span{display:block;margin-top:9px;font-size:12.5px;color:var(--clay-deep);font-weight:700;letter-spacing:.3px;text-transform:uppercase}
+
+  /* Tabs */
+  .tabs{display:flex;gap:8px;background:var(--card2);border:1px solid var(--line);
+    border-radius:999px;padding:5px;margin-bottom:18px;box-shadow:var(--shadow-sm)}
+  .tab{flex:1;border:0;background:transparent;font-family:'Nunito',sans-serif;font-weight:800;
+    font-size:14.5px;color:var(--ink-soft);padding:11px 8px;border-radius:999px;cursor:pointer;transition:.25s}
+  .tab.active{background:var(--clay);color:#fff;box-shadow:0 6px 16px rgba(180,101,63,.35)}
+
+  /* Keystone habit */
+  .keystone{background:linear-gradient(135deg,#eef3e5,#e6efd8);border:1px solid #dbe6c8;
+    border-radius:var(--r);padding:18px;box-shadow:var(--shadow);margin-bottom:16px}
+  .ks-lab{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--sage-deep);margin-bottom:4px}
+  .ks-top{display:flex;align-items:center;gap:14px}
+  .ks-check{width:46px;height:46px;border-radius:50%;border:3px solid #c3d3a6;background:#fff;
+    flex:0 0 auto;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+  .ks-check.on{background:var(--sage);border-color:var(--sage);transform:scale(1.02)}
+  .ks-check.on::after{content:"✓";color:#fff;font-size:24px;font-weight:800}
+  .ks-check:active{transform:scale(.94)}
+  .ks-name{flex:1;min-width:0;font-family:'Fraunces',serif;font-size:20px;font-weight:600;line-height:1.25;word-wrap:break-word;cursor:pointer}
+  .ks-name small{display:block;font-family:'Nunito',sans-serif;font-size:11.5px;font-weight:700;color:var(--sage-deep);opacity:.75;margin-top:3px}
+  .ks-flame{text-align:center;flex:0 0 auto}
+  .ks-flame b{font-family:'Fraunces',serif;font-size:22px;color:var(--clay-deep);display:block;line-height:1}
+  .ks-flame small{font-size:10px;font-weight:800;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.4px}
+  .ks-chain{display:flex;gap:6px;margin-top:14px;justify-content:space-between}
+  .ks-day{flex:1;text-align:center}
+  .ks-dot{width:100%;max-width:30px;height:30px;margin:0 auto;border-radius:9px;background:#fff;
+    border:1.5px solid #d5e0c0;display:flex;align-items:center;justify-content:center;font-size:12px}
+  .ks-dot.done{background:var(--sage);border-color:var(--sage);color:#fff;font-weight:800}
+  .ks-dot.today{box-shadow:0 0 0 2px var(--clay)}
+  .ks-dlab{font-size:9.5px;font-weight:800;color:var(--ink-faint);margin-top:4px;text-transform:uppercase}
+  .ks-set input{width:100%;border:1.5px solid #cfdcb6;border-radius:12px;padding:12px 13px;
+    font-family:'Nunito',sans-serif;font-size:15px;background:#fff;color:var(--ink);outline:none;margin-top:8px}
+  .ks-set button{margin-top:10px;width:100%;border:0;background:var(--sage);color:#fff;
+    font-family:'Nunito',sans-serif;font-weight:800;font-size:14.5px;padding:12px;border-radius:12px;cursor:pointer}
+  .ks-hint{font-size:12px;color:var(--sage-deep);margin-top:10px;line-height:1.5;opacity:.9}
+  .ks-edit{background:none;border:0;color:var(--sage-deep);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer;margin-top:12px;padding:0}
+
+  /* Progress ring / day summary */
+  .daycard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+    padding:18px;box-shadow:var(--shadow);margin-bottom:16px;display:flex;align-items:center;gap:16px}
+  .ring{position:relative;width:76px;height:76px;flex:0 0 auto}
+  .ring svg{transform:rotate(-90deg)}
+  .ring .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',serif;font-weight:600;font-size:19px;color:var(--sage-deep)}
+  .daycard .info h3{font-size:17px;margin-bottom:3px}
+  .daycard .info p{margin:0;font-size:13px;color:var(--ink-soft);font-weight:600}
+  .daycard .info .mins{color:var(--ink-faint);font-size:12px;margin-top:2px}
+
+  /* Section labels */
+  .seclabel{font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;
+    color:var(--ink-faint);margin:22px 4px 10px;display:flex;align-items:center;gap:8px}
+  .seclabel .dot{width:7px;height:7px;border-radius:50%;background:var(--clay)}
+  .seclabel.overdue .dot{background:#C6553E}
+  .seclabel.today .dot{background:var(--clay)}
+  .seclabel.week .dot{background:var(--gold)}
+  .seclabel.later .dot{background:var(--sage)}
+
+  /* Item cards */
+  .item{background:var(--card);border:1px solid var(--line);border-radius:18px;
+    padding:15px 16px;box-shadow:var(--shadow-sm);margin-bottom:11px;transition:.2s;position:relative;overflow:hidden}
+  .item.done{opacity:.55}
+  .item.done .it-title{text-decoration:line-through;color:var(--ink-faint)}
+  .item-row{display:flex;align-items:flex-start;gap:13px}
+  .check{width:26px;height:26px;border-radius:50%;border:2.5px solid var(--sand);
+    flex:0 0 auto;cursor:pointer;margin-top:1px;display:flex;align-items:center;justify-content:center;
+    transition:.2s;background:#fff}
+  .check.on{background:var(--sage);border-color:var(--sage)}
+  .check.on::after{content:"✓";color:#fff;font-size:15px;font-weight:800}
+  .it-body{flex:1;min-width:0}
+  .it-title{font-weight:800;font-size:16px;line-height:1.3;word-wrap:break-word}
+  .it-desc{font-size:13.5px;color:var(--ink-soft);margin-top:4px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
+  .it-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+  .chip{font-size:11px;font-weight:800;padding:4px 9px;border-radius:999px;background:var(--card2);
+    color:var(--ink-soft);border:1px solid var(--line)}
+  .chip.due{background:#fbe7dd;color:var(--clay-deep);border-color:#f3d3c2}
+  .chip.due.over{background:#f7dcd5;color:#B23A22;border-color:#eec3b8}
+  .chip.imp-High{background:#efe0c2;color:#9a6f16;border-color:#e6d1a5}
+  .chip.eff-Quick{background:#e4ecd9;color:var(--sage-deep);border-color:#d3e0c3}
+
+  /* Timer block */
+  .timer{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);display:none}
+  .timer.show{display:block}
+  .tdisplay{font-family:'Fraunces',serif;font-size:34px;font-weight:600;text-align:center;
+    letter-spacing:1px;color:var(--ink);font-variant-numeric:tabular-nums}
+  .tdisplay.ringing{color:var(--clay-deep);animation:pulse .7s infinite}
+  @keyframes pulse{50%{opacity:.35}}
+  .tbar{height:7px;background:var(--sand);border-radius:999px;overflow:hidden;margin:9px 0 12px}
+  .tbar i{display:block;height:100%;background:linear-gradient(90deg,var(--sage),var(--sage-deep));width:100%;transition:width 1s linear}
+  .tbtns{display:flex;gap:8px}
+  .tbtns button{flex:1;border:0;border-radius:12px;padding:11px;font-family:'Nunito',sans-serif;
+    font-weight:800;font-size:13.5px;cursor:pointer;transition:.2s}
+  .btn-start{background:var(--sage);color:#fff}
+  .btn-pause{background:var(--card2);color:var(--ink);border:1px solid var(--line)!important}
+  .btn-reset{background:var(--card2);color:var(--ink-soft);border:1px solid var(--line)!important;flex:0 0 auto;padding:11px 15px}
+
+  /* small row buttons */
+  .it-actions{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap}
+  .mini{border:1px solid var(--line);background:var(--card2);color:var(--ink-soft);
+    font-family:'Nunito',sans-serif;font-weight:800;font-size:12.5px;padding:8px 12px;border-radius:11px;cursor:pointer;transition:.2s}
+  .mini.primary{background:var(--clay);color:#fff;border-color:var(--clay)}
+  .mini.ghost{background:transparent}
+  .mini:active{transform:scale(.96)}
+
+  /* Do this first banner */
+  .first{background:linear-gradient(135deg,var(--clay),var(--clay-deep));color:#fff;
+    border-radius:var(--r);padding:18px 20px;box-shadow:0 12px 28px rgba(180,101,63,.32);margin-bottom:8px}
+  .first .lab{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;opacity:.85}
+  .first h3{color:#fff;font-size:20px;margin:6px 0 4px}
+  .first p{margin:0;font-size:13.5px;opacity:.92;line-height:1.5}
+  .first .fbtn{margin-top:12px;background:rgba(255,255,255,.95);color:var(--clay-deep);border:0;
+    font-family:'Nunito',sans-serif;font-weight:800;font-size:13.5px;padding:10px 16px;border-radius:12px;cursor:pointer}
+
+  /* Add buttons + forms */
+  .addbtn{width:100%;border:2px dashed var(--sand);background:transparent;color:var(--clay-deep);
+    font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;padding:15px;border-radius:16px;cursor:pointer;transition:.2s;margin-top:6px}
+  .addbtn:active{transform:scale(.99)}
+  .form{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+    padding:18px;box-shadow:var(--shadow);margin-bottom:16px;display:none}
+  .form.show{display:block}
+  .form label{display:block;font-size:12px;font-weight:800;color:var(--ink-soft);margin:12px 2px 6px;letter-spacing:.3px}
+  .form label:first-child{margin-top:0}
+  .form input,.form textarea,.form select{width:100%;border:1.5px solid var(--line);border-radius:12px;
+    padding:12px 13px;font-family:'Nunito',sans-serif;font-size:15px;color:var(--ink);background:var(--card2);outline:none;transition:.2s}
+  .form input:focus,.form textarea:focus,.form select:focus{border-color:var(--clay);background:#fff}
+  .form textarea{resize:vertical;min-height:64px;line-height:1.5}
+  .seg{display:flex;gap:7px}
+  .seg button{flex:1;border:1.5px solid var(--line);background:var(--card2);color:var(--ink-soft);
+    font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;padding:10px;border-radius:11px;cursor:pointer;transition:.2s}
+  .seg button.on{background:var(--sage);color:#fff;border-color:var(--sage)}
+  .frow{display:flex;gap:10px}
+  .frow>div{flex:1}
+  .fsave{display:flex;gap:9px;margin-top:16px}
+  .fsave button{flex:1;border:0;border-radius:12px;padding:13px;font-family:'Nunito',sans-serif;font-weight:800;font-size:14.5px;cursor:pointer}
+  .fsave .save{background:var(--clay);color:#fff}
+  .fsave .cancel{background:var(--card2);color:var(--ink-soft);border:1px solid var(--line)!important}
+
+  .empty{text-align:center;padding:30px 20px;color:var(--ink-faint)}
+  .empty .em{font-size:40px;margin-bottom:8px}
+  .empty p{margin:0;font-size:14px;font-weight:600}
+
+  .hint{font-size:12.5px;color:var(--ink-faint);text-align:center;margin:4px 6px 0;line-height:1.5}
+
+  /* Toast / celebration */
+  .toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:#fff;font-weight:700;font-size:14px;padding:13px 20px;border-radius:14px;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:.35s;z-index:60;max-width:88%;text-align:center}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:55}
+
+  .foot{text-align:center;color:var(--ink-faint);font-size:11.5px;margin:26px 0 6px;font-weight:600}
+  .foot a{color:var(--clay-deep);cursor:pointer;text-decoration:none;font-weight:800}
+  .hide{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <div class="greet" id="greet">Good morning</div>
+      <div class="date" id="date"></div>
+    </div>
+    <div class="streak" id="streakBox" title="Your streak. One free rest day is built in, so a single miss won't reset you.">
+      <span class="flame">🔥</span><b id="streakNum">0</b><small id="streakLbl">day</small>
+    </div>
+  </div>
+
+  <div class="quote" id="quote">
+    <p id="quoteText">Loading…</p>
+    <span id="quoteWhy">One small win today</span>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="today" onclick="switchTab('today')">Today</button>
+    <button class="tab" data-tab="assign" onclick="switchTab('assign')">Assignments</button>
+  </div>
+
+  <!-- TODAY -->
+  <section id="view-today">
+    <div class="keystone" id="keystoneCard"></div>
+
+    <div class="daycard">
+      <div class="ring">
+        <svg width="76" height="76" viewBox="0 0 76 76">
+          <circle cx="38" cy="38" r="32" fill="none" stroke="#EADFCB" stroke-width="8"/>
+          <circle id="ringFill" cx="38" cy="38" r="32" fill="none" stroke="#8B9A78" stroke-width="8"
+                  stroke-linecap="round" stroke-dasharray="201" stroke-dashoffset="201"/>
+        </svg>
+        <div class="pct" id="ringPct">0%</div>
+      </div>
+      <div class="info">
+        <h3 id="dayHead">Let's begin</h3>
+        <p id="dayLine">Pick 3–5 things to focus on.</p>
+        <div class="mins" id="dayMins"></div>
+      </div>
+    </div>
+
+    <div id="todayList"></div>
+
+    <div class="form" id="todayForm">
+      <label>What will you focus on?</label>
+      <input id="tfTitle" placeholder="e.g. Read 10 pages of chemistry" maxlength="80">
+      <label>How many minutes?</label>
+      <div class="seg" id="tfMinSeg">
+        <button data-min="15" class="on">15m</button>
+        <button data-min="25">25m</button>
+        <button data-min="45">45m</button>
+        <button data-min="60">60m</button>
+      </div>
+      <div class="fsave">
+        <button class="cancel" onclick="closeForms()">Cancel</button>
+        <button class="save" onclick="addFocus()">Add focus</button>
+      </div>
+    </div>
+
+    <button class="addbtn" id="todayAdd" onclick="openTodayForm()">+ Add a focus</button>
+    <p class="hint">Keep it to 3–5 things. Small and finishable beats big and scary.</p>
+  </section>
+
+  <!-- ASSIGNMENTS -->
+  <section id="view-assign" class="hide">
+    <div id="firstWrap"></div>
+    <div id="assignList"></div>
+
+    <div class="form" id="assignForm">
+      <label>What is it?</label>
+      <input id="afTitle" placeholder="e.g. History essay" maxlength="100">
+      <label>What do you actually need to do? (steps help)</label>
+      <textarea id="afDesc" placeholder="- Outline the argument&#10;- Find 3 sources&#10;- Write intro"></textarea>
+      <div class="frow">
+        <div>
+          <label>Due date</label>
+          <input id="afDue" type="date">
+        </div>
+      </div>
+      <label>Effort</label>
+      <div class="seg" id="afEffort">
+        <button data-v="Quick" class="on">Quick</button>
+        <button data-v="Medium">Medium</button>
+        <button data-v="Big">Big</button>
+      </div>
+      <label>Importance</label>
+      <div class="seg" id="afImp">
+        <button data-v="Low">Low</button>
+        <button data-v="Medium" class="on">Medium</button>
+        <button data-v="High">High</button>
+      </div>
+      <div class="fsave">
+        <button class="cancel" onclick="closeForms()">Cancel</button>
+        <button class="save" onclick="addAssignment()">Add assignment</button>
+      </div>
+    </div>
+
+    <button class="addbtn" id="assignAdd" onclick="openAssignForm()">+ Add an assignment</button>
+    <p class="hint">Dump everything due this month. The app sorts what to do first, so you don't have to.</p>
+  </section>
+
+  <div class="foot">Saved on this device · <a onclick="resetToday()">reset today's list</a></div>
+</div>
+
+<div class="toast" id="toast"></div>
+<canvas id="confetti"></canvas>
+
+<script>
+/* ---------- storage ---------- */
+const KEY='dayplan_v2';
+let state=load();
+function load(){
+  try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return s;}catch(e){}
+  return {focuses:[],assignments:[],streak:0,lastActive:null,graceUsed:false,lastQuoteDay:null,keystone:{name:null,history:{}}};
+}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+
+/* ---------- dates ---------- */
+function todayKey(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function daysBetween(a,b){return Math.round((new Date(b)-new Date(a))/86400000);}
+function fmtDate(){return new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});}
+function greeting(){const h=new Date().getHours();return h<12?'Good morning':h<18?'Good afternoon':'Good evening';}
+
+/* ---------- quotes (rotate daily) ---------- */
+const QUOTES=[
+ ["You do not have to be extreme, just consistent.","consistency > intensity"],
+ ["The days you least feel like it are the days you most need to show up.","show up anyway"],
+ ["Small steps every day add up to big change.","one small win today"],
+ ["Discipline is choosing what you want most over what you want now.","future you is watching"],
+ ["You've wasted enough time worrying. Start with one thing.","just begin"],
+ ["Motivation gets you started. Showing up keeps you going.","start, then continue"],
+ ["A year from now you'll wish you'd started today.","today is the day"],
+ ["You are not behind. You are exactly where the work begins.","begin here"],
+ ["Done is better than perfect. Finish something small.","finish one thing"],
+ ["The person you want to become is built one focused hour at a time.","build the hour"],
+ ["Your future is created by what you do today, not tomorrow.","act now"],
+ ["Progress, not perfection. Every check-off counts.","count the wins"],
+ ["Focus is a muscle. Today you get to train it.","train focus today"],
+ ["You changed your mind about your life. Now change your afternoon.","reclaim today"],
+ ["One clear task beats ten vague worries.","clarity over chaos"],
+];
+function pickQuote(){
+  const tk=todayKey();
+  if(state.lastQuoteDay!==tk){
+    // deterministic-by-day so it changes each day but is stable within a day
+    const seed=tk.split('-').join('')%QUOTES.length;
+    state.quoteIdx=seed;state.lastQuoteDay=tk;save();
+  }
+  return QUOTES[state.quoteIdx??0];
+}
+const CHEERS=["Nice. That's momentum.","One down. Feel that?","Look at you go.","That's a win. Bank it.","Proud of you. Keep rolling.","Yes! Future you says thanks.","Clean. On to the next.","That's how it's done."];
+
+/* ---------- keystone streak (grace day, self-healing) ---------- */
+// The streak is the chain of days you did your ONE keystone habit.
+// One missed day is forgiven so a single slip won't wipe your progress.
+function ymd(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function computeStreak(){
+  const h=(state.keystone&&state.keystone.history)||{};
+  let count=0,missUsed=false;
+  const cur=new Date();
+  for(let i=0;i<400;i++){
+    const key=ymd(cur);
+    const done=!!h[key];
+    if(i===0){                       // today: incomplete is fine, don't break, don't count
+      if(done)count++;
+    }else{
+      if(done)count++;
+      else{ if(!missUsed)missUsed=true; else break; } // forgive one gap, then stop
+    }
+    cur.setDate(cur.getDate()-1);
+  }
+  return count;
+}
+function renderStreak(){
+  const s=computeStreak();
+  document.getElementById('streakNum').textContent=s;
+  document.getElementById('streakLbl').textContent=s===1?'day':'days';
+}
+
+/* ---------- KEYSTONE HABIT ---------- */
+const KS_SUGGEST=["Move my body for 20 min","Wake up by 7am","Read 10 pages","No phone for the first hour","10 min of focused study","Walk outside once"];
+let ksEditing=false;
+function renderKeystone(){
+  const el=document.getElementById('keystoneCard');
+  const ks=state.keystone;
+  if(!ks.name || ksEditing){
+    const ph=KS_SUGGEST[Math.floor(Math.random()*KS_SUGGEST.length)];
+    el.innerHTML=`
+      <div class="ks-lab">✦ Your one thing</div>
+      <div class="ks-set">
+        <div style="font-family:'Fraunces',serif;font-size:17px;font-weight:600;line-height:1.35">Pick the single habit that makes everything else easier.</div>
+        <input id="ksInput" placeholder="${ph}" maxlength="60" value="${esc(ks.name||'')}">
+        <button onclick="saveKeystone()">${ks.name?'Save':'Set my keystone habit'}</button>
+        <div class="ks-hint">Just one. Do it daily and let the chain grow. This is what your streak tracks now, not random tasks.</div>
+      </div>`;
+    const inp=document.getElementById('ksInput');if(inp)inp.focus();
+    return;
+  }
+  const tk=todayKey();
+  const doneToday=!!ks.history[tk];
+  const streak=computeStreak();
+  // last 7 days chain
+  let dots='';
+  const labels=['S','M','T','W','T','F','S'];
+  for(let i=6;i>=0;i--){
+    const d=new Date();d.setDate(d.getDate()-i);
+    const key=ymd(d);const done=!!ks.history[key];const isToday=key===tk;
+    dots+=`<div class="ks-day"><div class="ks-dot ${done?'done':''} ${isToday?'today':''}">${done?'✓':''}</div>
+      <div class="ks-dlab">${labels[d.getDay()]}</div></div>`;
+  }
+  const msg=doneToday
+    ? "Done today. That's the chain growing. 🌿"
+    : (streak>0? "Keep the chain alive. Tap the circle when it's done." : "Start your chain. Do it once, tap the circle.");
+  el.innerHTML=`
+    <div class="ks-lab">✦ Your one thing</div>
+    <div class="ks-top">
+      <div class="ks-check ${doneToday?'on':''}" onclick="toggleKeystone()"></div>
+      <div class="ks-name" onclick="startEditKeystone()">${esc(ks.name)}<small>tap name to change</small></div>
+      <div class="ks-flame"><b>🔥${streak}</b><small>${streak===1?'day':'days'}</small></div>
+    </div>
+    <div class="ks-chain">${dots}</div>
+    <div class="ks-hint">${msg}</div>`;
+}
+function saveKeystone(){
+  const v=document.getElementById('ksInput').value.trim();if(!v)return;
+  state.keystone.name=v;ksEditing=false;save();renderKeystone();renderStreak();
+  toast('Your keystone habit is set. This is the one that counts. 🌱');
+}
+function startEditKeystone(){ksEditing=true;renderKeystone();}
+function toggleKeystone(){
+  const tk=todayKey();const h=state.keystone.history;
+  if(h[tk]){delete h[tk];}
+  else{h[tk]=true;celebrate();}
+  save();renderKeystone();renderStreak();
+}
+
+/* ---------- TODAY ---------- */
+const RING_C=201;
+function renderToday(){
+  const list=document.getElementById('todayList');
+  list.innerHTML='';
+  const f=state.focuses;
+  if(f.length===0){
+    list.innerHTML='<div class="empty"><div class="em">🌱</div><p>A clear, empty day.<br>Add your first focus below.</p></div>';
+  }
+  f.forEach(x=>list.appendChild(focusCard(x)));
+  // summary
+  const done=f.filter(x=>x.done).length;
+  const total=f.length;
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('ringFill').style.strokeDashoffset=RING_C-(RING_C*pct/100);
+  document.getElementById('ringPct').textContent=pct+'%';
+  const planned=f.filter(x=>!x.done).reduce((s,x)=>s+x.min,0);
+  const doneMin=f.filter(x=>x.done).reduce((s,x)=>s+x.min,0);
+  const head=document.getElementById('dayHead'),line=document.getElementById('dayLine'),mins=document.getElementById('dayMins');
+  if(total===0){head.textContent="Let's begin";line.textContent="Pick 3–5 things to focus on.";mins.textContent='';}
+  else if(done===total){head.textContent="All done. 🌟";line.textContent="You cleared your whole list. Rest easy.";mins.textContent=doneMin+' focused minutes today';}
+  else{head.textContent=done+' of '+total+' done';line.textContent=done===0?"Tap the circle to start winning.":"Keep the momentum going.";mins.textContent=planned+' min still planned · '+doneMin+' min done';}
+}
+function focusCard(x){
+  const el=document.createElement('div');
+  el.className='item'+(x.done?' done':'');
+  el.innerHTML=`
+    <div class="item-row">
+      <div class="check ${x.done?'on':''}" onclick="toggleFocus('${x.id}')"></div>
+      <div class="it-body">
+        <div class="it-title">${esc(x.title)}</div>
+        <div class="it-meta"><span class="chip">${x.min} min</span></div>
+        <div class="timer ${x.timerOpen?'show':''}" id="tm-${x.id}">
+          <div class="tdisplay" id="td-${x.id}">${fmtClock(x.remain??x.min*60)}</div>
+          <div class="tbar"><i id="tp-${x.id}" style="width:${((x.remain??x.min*60)/(x.min*60))*100}%"></i></div>
+          <div class="tbtns">
+            <button class="btn-start" id="ts-${x.id}" onclick="startTimer('${x.id}')">${x.running?'Running…':'Start'}</button>
+            <button class="btn-pause" onclick="pauseTimer('${x.id}')">Pause</button>
+            <button class="btn-reset" onclick="resetTimer('${x.id}')">↺</button>
+          </div>
+        </div>
+        <div class="it-actions">
+          ${x.done?'':`<button class="mini ghost" onclick="toggleTimer('${x.id}')">${x.timerOpen?'Hide timer':'⏱ Timer'}</button>`}
+          <button class="mini ghost" onclick="removeFocus('${x.id}')">Remove</button>
+        </div>
+      </div>
+    </div>`;
+  return el;
+}
+function toggleTimer(id){const x=find(state.focuses,id);x.timerOpen=!x.timerOpen;save();renderToday();}
+function toggleFocus(id){
+  const x=find(state.focuses,id);
+  x.done=!x.done;
+  if(x.done){stopTimer(id);celebrate();}
+  save();renderToday();
+}
+function removeFocus(id){stopTimer(id);state.focuses=state.focuses.filter(f=>f.id!==id);save();renderToday();}
+function addFocus(){
+  const t=document.getElementById('tfTitle').value.trim();if(!t)return;
+  const min=+document.querySelector('#tfMinSeg .on').dataset.min;
+  state.focuses.push({id:uid(),title:t,min,done:false,remain:min*60,timerOpen:false,running:false});
+  document.getElementById('tfTitle').value='';save();closeForms();renderToday();
+}
+function resetToday(){if(confirm("Clear today's focus list? Your assignments and streak stay.")){
+  Object.keys(timers).forEach(clearInt);state.focuses=[];save();renderToday();}}
+
+/* ---------- timers ---------- */
+let timers={};
+function clearInt(id){if(timers[id]){clearInterval(timers[id]);delete timers[id];}}
+function startTimer(id){
+  const x=find(state.focuses,id);if(x.done)return;
+  if(x.remain==null)x.remain=x.min*60;
+  if(x.remain<=0){x.remain=x.min*60;}
+  x.running=true;x.timerOpen=true;save();
+  document.getElementById('ts-'+id).textContent='Running…';
+  clearInt(id);
+  timers[id]=setInterval(()=>tick(id),1000);
+}
+function tick(id){
+  const x=find(state.focuses,id);if(!x){clearInt(id);return;}
+  x.remain--;save();
+  const td=document.getElementById('td-'+id),tp=document.getElementById('tp-'+id);
+  if(td)td.textContent=fmtClock(Math.max(0,x.remain));
+  if(tp)tp.style.width=Math.max(0,(x.remain/(x.min*60))*100)+'%';
+  if(x.remain<=0){finishTimer(id);}
+}
+function finishTimer(id){
+  clearInt(id);const x=find(state.focuses,id);if(!x)return;
+  x.running=false;x.remain=0;save();
+  const td=document.getElementById('td-'+id);
+  if(td){td.textContent="Time's up";td.classList.add('ringing');}
+  ringAndBuzz();toast("⏰ Time's up on \""+x.title+"\" — take a breath, then check it off.");
+}
+function pauseTimer(id){const x=find(state.focuses,id);if(x){x.running=false;save();}clearInt(id);const b=document.getElementById('ts-'+id);if(b)b.textContent='Start';}
+function stopTimer(id){pauseTimer(id);}
+function resetTimer(id){const x=find(state.focuses,id);if(!x)return;pauseTimer(id);x.remain=x.min*60;save();const td=document.getElementById('td-'+id);if(td){td.textContent=fmtClock(x.remain);td.classList.remove('ringing');}const tp=document.getElementById('tp-'+id);if(tp)tp.style.width='100%';}
+function fmtClock(s){s=Math.max(0,s);const m=Math.floor(s/60),ss=s%60;return m+':'+String(ss).padStart(2,'0');}
+
+/* ---------- sound + vibrate ---------- */
+function ringAndBuzz(){
+  if(navigator.vibrate)navigator.vibrate([300,120,300,120,400]);
+  try{
+    const AC=window.AudioContext||window.webkitAudioContext;const ctx=new AC();
+    [0,0.5,1].forEach(off=>{
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.type='sine';o.frequency.value=740;
+      o.connect(g);g.connect(ctx.destination);
+      const t=ctx.currentTime+off;
+      g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.25,t+.05);
+      g.gain.exponentialRampToValueAtTime(.001,t+.4);
+      o.start(t);o.stop(t+.42);
+    });
+  }catch(e){}
+}
+
+/* ---------- ASSIGNMENTS ---------- */
+function priority(a){
+  if(a.done)return -1;
+  let score=0;
+  const tk=todayKey();
+  if(a.due){
+    const d=daysBetween(tk,a.due);
+    if(d<0)score+=1000+Math.min(200,-d*10);      // overdue, most first
+    else if(d===0)score+=800;                      // due today
+    else score+=Math.max(0,600-d*18);              // sooner = higher
+    // quick-win nudge: due within a day and quick
+    if(d<=1 && a.effort==='Quick')score+=90;
+  }else{
+    score+=250; // no due date -> middle
+  }
+  score+=({High:120,Medium:55,Low:0})[a.imp]||0;
+  if(!a.due && a.imp==='Low')score-=200; // sink to bottom
+  return score;
+}
+function bucketOf(a){
+  if(!a.due)return 'later';
+  const d=daysBetween(todayKey(),a.due);
+  if(d<0)return 'overdue';
+  if(d===0)return 'today';
+  if(d<=7)return 'week';
+  return 'later';
+}
+function renderAssign(){
+  const wrap=document.getElementById('assignList');wrap.innerHTML='';
+  const fw=document.getElementById('firstWrap');fw.innerHTML='';
+  const open=state.assignments.filter(a=>!a.done).sort((a,b)=>priority(b)-priority(a));
+  const done=state.assignments.filter(a=>a.done);
+
+  if(state.assignments.length===0){
+    wrap.innerHTML='<div class="empty"><div class="em">📋</div><p>Nothing here yet.<br>Add what\'s due this month below.</p></div>';
+    return;
+  }
+  // Do this first
+  if(open.length){
+    const top=open[0];
+    fw.innerHTML=`<div class="first">
+      <div class="lab">✦ Do this first</div>
+      <h3>${esc(top.title)}</h3>
+      <p>${top.due?dueText(top.due):'No deadline set'} · ${top.imp} importance · ${top.effort}</p>
+      <button class="fbtn" onclick="sendToToday('${top.id}')">Add to today →</button>
+    </div>`;
+  }
+  const groups=[['overdue','Overdue','overdue'],['today','Do today','today'],['week','This week','week'],['later','Later','later']];
+  groups.forEach(([key,label,cls])=>{
+    const items=open.filter(a=>bucketOf(a)===key);
+    if(!items.length)return;
+    const lab=document.createElement('div');lab.className='seclabel '+cls;
+    lab.innerHTML='<span class="dot"></span>'+label+' · '+items.length;
+    wrap.appendChild(lab);
+    items.forEach(a=>wrap.appendChild(assignCard(a)));
+  });
+  if(done.length){
+    const lab=document.createElement('div');lab.className='seclabel';
+    lab.innerHTML='<span class="dot" style="background:var(--sage)"></span>Done · '+done.length;
+    wrap.appendChild(lab);
+    done.forEach(a=>wrap.appendChild(assignCard(a)));
+  }
+}
+function assignCard(a){
+  const el=document.createElement('div');el.className='item'+(a.done?' done':'');
+  const over=a.due&&daysBetween(todayKey(),a.due)<0;
+  el.innerHTML=`
+    <div class="item-row">
+      <div class="check ${a.done?'on':''}" onclick="toggleAssign('${a.id}')"></div>
+      <div class="it-body">
+        <div class="it-title">${esc(a.title)}</div>
+        ${a.desc?`<div class="it-desc">${esc(a.desc)}</div>`:''}
+        <div class="it-meta">
+          ${a.due?`<span class="chip due ${over?'over':''}">${dueText(a.due)}</span>`:'<span class="chip">no date</span>'}
+          <span class="chip imp-${a.imp}">${a.imp}</span>
+          <span class="chip eff-${a.effort}">${a.effort}</span>
+        </div>
+        ${a.done?'':`<div class="it-actions">
+          <button class="mini primary" onclick="sendToToday('${a.id}')">Add to today</button>
+          <button class="mini ghost" onclick="removeAssign('${a.id}')">Delete</button>
+        </div>`}
+      </div>
+    </div>`;
+  return el;
+}
+function dueText(due){
+  const d=daysBetween(todayKey(),due);
+  if(d<0)return (-d)+' day'+(d===-1?'':'s')+' overdue';
+  if(d===0)return 'Due today';
+  if(d===1)return 'Due tomorrow';
+  if(d<=7)return 'Due in '+d+' days';
+  const dt=new Date(due+'T00:00');
+  return 'Due '+dt.toLocaleDateString(undefined,{month:'short',day:'numeric'});
+}
+function toggleAssign(id){const a=find(state.assignments,id);a.done=!a.done;if(a.done){celebrate();}save();renderAssign();}
+function removeAssign(id){state.assignments=state.assignments.filter(a=>a.id!==id);save();renderAssign();}
+function addAssignment(){
+  const t=document.getElementById('afTitle').value.trim();if(!t)return;
+  const a={id:uid(),title:t,
+    desc:document.getElementById('afDesc').value.trim(),
+    due:document.getElementById('afDue').value||null,
+    effort:document.querySelector('#afEffort .on').dataset.v,
+    imp:document.querySelector('#afImp .on').dataset.v,done:false};
+  state.assignments.push(a);save();closeForms();
+  document.getElementById('afTitle').value='';document.getElementById('afDesc').value='';document.getElementById('afDue').value='';
+  renderAssign();toast('Added. It\'s in your sorted list now.');
+}
+function sendToToday(id){
+  const a=find(state.assignments,id);if(!a)return;
+  const min=({Quick:15,Medium:25,Big:45})[a.effort]||25;
+  state.focuses.push({id:uid(),title:a.title,min,done:false,remain:min*60,timerOpen:false,running:false,from:id});
+  save();switchTab('today');renderToday();toast('"'+a.title+'" added to today with a '+min+'-min timer.');
+}
+
+/* ---------- celebration ---------- */
+function celebrate(){confetti();toast(CHEERS[Math.floor(Math.random()*CHEERS.length)]);}
+let toastT;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600);}
+function confetti(){
+  const cv=document.getElementById('confetti');const ctx=cv.getContext('2d');
+  cv.width=innerWidth;cv.height=innerHeight;
+  const cols=['#C97B54','#8B9A78','#D9A441','#F0C9A8','#B4653F'];
+  const P=[];for(let i=0;i<70;i++){P.push({x:innerWidth/2+(Math.random()-.5)*120,y:innerHeight*0.35,
+    vx:(Math.random()-.5)*9,vy:Math.random()*-11-4,g:.32+Math.random()*.15,
+    s:5+Math.random()*6,c:cols[i%cols.length],r:Math.random()*6,vr:(Math.random()-.5)*.4,life:0});}
+  let frame=0;
+  (function anim(){frame++;ctx.clearRect(0,0,cv.width,cv.height);let alive=false;
+    P.forEach(p=>{p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;p.life++;
+      if(p.y<cv.height+20){alive=true;}
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.globalAlpha=Math.max(0,1-p.life/90);
+      ctx.fillStyle=p.c;ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);ctx.restore();});
+    if(alive&&frame<120)requestAnimationFrame(anim);else ctx.clearRect(0,0,cv.width,cv.height);
+  })();
+}
+
+/* ---------- forms / tabs ---------- */
+function switchTab(t){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));
+  document.getElementById('view-today').classList.toggle('hide',t!=='today');
+  document.getElementById('view-assign').classList.toggle('hide',t!=='assign');
+  closeForms();
+}
+function openTodayForm(){closeForms();document.getElementById('todayForm').classList.add('show');document.getElementById('todayAdd').classList.add('hide');document.getElementById('tfTitle').focus();}
+function openAssignForm(){closeForms();document.getElementById('assignForm').classList.add('show');document.getElementById('assignAdd').classList.add('hide');document.getElementById('afTitle').focus();}
+function closeForms(){
+  document.getElementById('todayForm').classList.remove('show');document.getElementById('todayAdd').classList.remove('hide');
+  document.getElementById('assignForm').classList.remove('show');document.getElementById('assignAdd').classList.remove('hide');
+}
+// segmented pickers
+document.addEventListener('click',e=>{
+  const b=e.target.closest('.seg button');if(!b)return;
+  b.parentElement.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+});
+
+/* ---------- helpers ---------- */
+function find(arr,id){return arr.find(x=>x.id===id);}
+function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+/* ---------- init ---------- */
+function init(){
+  document.getElementById('greet').textContent=greeting()+',';
+  document.getElementById('date').textContent=fmtDate();
+  const q=pickQuote();document.getElementById('quoteText').textContent=q[0];document.getElementById('quoteWhy').textContent=q[1];
+  // migrate older saves that predate the keystone habit
+  if(!state.keystone)state.keystone={name:null,history:{}};
+  if(!state.keystone.history)state.keystone.history={};
+  // resume running timers from saved remain (they were paused on reload for safety)
+  state.focuses.forEach(x=>{if(x.running){x.running=false;}});
+  renderKeystone();renderStreak();renderToday();renderAssign();
+  // default due date = today
+  document.getElementById('afDue').value=todayKey();
+}
+init();
+window.addEventListener('resize',()=>{const cv=document.getElementById('confetti');cv.width=innerWidth;cv.height=innerHeight;});
+</script>
+</body>
+</html>
