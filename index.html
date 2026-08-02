@@ -286,6 +286,51 @@
   .foot{text-align:center;color:var(--ink-faint);font-size:11.5px;margin:26px 0 6px;font-weight:600}
   .foot a{color:var(--clay-deep);cursor:pointer;text-decoration:none;font-weight:800}
   .hide{display:none!important}
+
+  /* Mood row in check-in */
+  .ci-mood{display:flex;gap:6px;margin-top:12px;align-items:center;justify-content:space-between}
+  .ci-mood button{flex:1;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:8px 0;font-size:20px;cursor:pointer;transition:.15s;line-height:1}
+  .ci-mood button.on{background:var(--peach);border-color:var(--clay);transform:scale(1.05)}
+  .ci-moodlab{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--clay-deep);margin-top:14px}
+
+  /* Sign-in overlay */
+  .signin{position:fixed;inset:0;z-index:80;background:linear-gradient(160deg,#2E2733,#7A5560);
+    display:flex;align-items:center;justify-content:center;padding:22px}
+  .signin .card{background:var(--card);border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,.35);padding:26px 22px;max-width:380px;width:100%}
+  .signin h2{font-family:'Fraunces',serif;font-size:24px;margin-bottom:4px}
+  .signin p{margin:0 0 18px;font-size:13.5px;color:var(--ink-soft);line-height:1.5}
+  .signin label{display:block;font-size:12px;font-weight:800;color:var(--ink-soft);margin:12px 2px 6px}
+  .signin input{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:13px;font-family:'Nunito',sans-serif;font-size:16px;background:var(--card2);color:var(--ink);outline:none}
+  .signin input:focus{border-color:var(--clay);background:#fff}
+  .signin .go{width:100%;margin-top:18px;border:0;background:var(--clay);color:#fff;font-family:'Nunito',sans-serif;font-weight:800;font-size:16px;padding:14px;border-radius:14px;cursor:pointer}
+  .signin .err{color:#B23A22;font-size:12.5px;font-weight:700;margin-top:10px;min-height:16px}
+  .signin .note{font-size:11.5px;color:var(--ink-faint);margin-top:14px;line-height:1.5}
+
+  /* Coach FAB + chat */
+  .fab{position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:70;width:60px;height:60px;border-radius:50%;
+    border:0;background:linear-gradient(135deg,var(--clay),var(--clay-deep));color:#fff;font-size:26px;cursor:pointer;
+    box-shadow:0 10px 26px rgba(180,101,63,.45);display:flex;align-items:center;justify-content:center}
+  .fab:active{transform:scale(.94)}
+  .fab .fbadge{position:absolute;top:-2px;right:-2px;width:16px;height:16px;border-radius:50%;background:var(--sage);border:2px solid var(--card)}
+  .chat{position:fixed;inset:0;z-index:75;background:linear-gradient(160deg,var(--bg1),var(--bg2));display:flex;flex-direction:column}
+  .chat-top{display:flex;align-items:center;gap:12px;padding:calc(14px + env(safe-area-inset-top)) 16px 14px;border-bottom:1px solid var(--line);background:var(--card)}
+  .chat-top .avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--clay),var(--clay-deep));color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:19px;font-weight:600;flex:0 0 auto}
+  .chat-top .who{flex:1;min-width:0}
+  .chat-top .who b{font-family:'Fraunces',serif;font-size:17px;display:block}
+  .chat-top .who small{font-size:11.5px;color:var(--sage-deep);font-weight:700}
+  .chat-top .cbtn{border:1px solid var(--line);background:var(--card2);color:var(--ink-soft);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;padding:8px 11px;border-radius:11px;cursor:pointer}
+  .chat-top .cx{border:0;background:transparent;color:var(--ink-soft);font-size:26px;cursor:pointer;line-height:1;padding:0 4px}
+  .chat-msgs{flex:1;overflow-y:auto;padding:18px 16px 8px;display:flex;flex-direction:column;gap:12px}
+  .bub{max-width:82%;padding:12px 15px;border-radius:18px;font-size:14.5px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
+  .bub.coach{align-self:flex-start;background:var(--card);border:1px solid var(--line);border-bottom-left-radius:6px;box-shadow:var(--shadow-sm)}
+  .bub.me{align-self:flex-end;background:var(--clay);color:#fff;border-bottom-right-radius:6px}
+  .bub.typing{color:var(--ink-faint);font-style:italic}
+  .chat-in{display:flex;gap:9px;padding:12px 14px calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--card)}
+  .chat-in input{flex:1;border:1.5px solid var(--line);border-radius:22px;padding:12px 16px;font-family:'Nunito',sans-serif;font-size:15px;background:var(--card2);color:var(--ink);outline:none}
+  .chat-in input:focus{border-color:var(--clay);background:#fff}
+  .chat-in button{border:0;background:var(--clay);color:#fff;width:46px;height:46px;border-radius:50%;font-size:20px;cursor:pointer;flex:0 0 auto}
+  .chat-quick{display:flex;gap:8px;padding:0 16px 10px;flex-wrap:wrap}
+  .chat-quick button{border:1px solid var(--line);background:var(--card);color:var(--clay-deep);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;padding:7px 12px;border-radius:999px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -415,6 +460,42 @@
   <div class="foot">Saved on this device · <a onclick="resetToday()">reset today's list</a></div>
 </div>
 
+<!-- Coach button + chat -->
+<button class="fab" id="coachFab" onclick="openChat()" title="Talk to your coach">💬<span class="fbadge"></span></button>
+<div class="chat hide" id="chatPanel">
+  <div class="chat-top">
+    <div class="avatar" id="chatAvatar">C</div>
+    <div class="who"><b id="chatName">Coach</b><small>reads your real progress</small></div>
+    <button class="cbtn" onclick="coachRename()">Rename</button>
+    <button class="cx" onclick="closeChat()">×</button>
+  </div>
+  <div class="chat-msgs" id="chatMsgs"></div>
+  <div class="chat-quick" id="chatQuick">
+    <button onclick="coachAsk('How am I doing?')">How am I doing?</button>
+    <button onclick="coachKickoff()">Morning kickoff</button>
+    <button onclick="coachWeekly()">Weekly review</button>
+  </div>
+  <div class="chat-in">
+    <input id="chatInput" placeholder="Say something to your coach…" onkeydown="if(event.key==='Enter')coachSend()">
+    <button onclick="coachSend()">➤</button>
+  </div>
+</div>
+
+<!-- Sign-in -->
+<div class="signin hide" id="signin">
+  <div class="card">
+    <h2 id="siTitle">Welcome back</h2>
+    <p id="siSub">Sign in with your name and PIN. Your plan follows you to any device.</p>
+    <label>Your name</label>
+    <input id="siUser" autocapitalize="off" autocorrect="off" placeholder="e.g. sooki">
+    <label>PIN (4+ characters, remember it)</label>
+    <input id="siPin" type="password" inputmode="numeric" placeholder="your secret PIN">
+    <div class="err" id="siErr"></div>
+    <button class="go" id="siGo" onclick="doSignIn()">Continue</button>
+    <div class="note">Pick anything you'll remember. There's no email and no password reset, your name + PIN are the only key to your data.</div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 <canvas id="confetti"></canvas>
 
@@ -424,9 +505,9 @@ const KEY='dayplan_v2';
 let state=load();
 function load(){
   try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return s;}catch(e){}
-  return {focuses:[],assignments:[],streak:0,lastActive:null,graceUsed:false,lastQuoteDay:null,keystone:{name:null,history:{}},schedule:[]};
+  return {focuses:[],assignments:[],streak:0,lastActive:null,graceUsed:false,lastQuoteDay:null,keystone:{name:null,history:{}},schedule:[],coach:{name:null},moods:{}};
 }
-function save(){localStorage.setItem(KEY,JSON.stringify(state));}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));cloudSave();}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
 
 /* ---------- dates ---------- */
@@ -934,7 +1015,13 @@ function renderCheckin(){
     +'<div class="ci-stat"><b>'+schedH+'h</b><span>scheduled</span></div>'
     +'<div class="ci-stat"><b>'+weekDone+'</b><span>done · 7d</span></div>'
     +'</div>'
-    +'<div class="ci-nudge">'+nudge+'</div>';
+    +'<div class="ci-nudge">'+nudge+'</div>'
+    +'<div class="ci-moodlab">How are you feeling today?</div>'
+    +'<div class="ci-mood">'+[1,2,3,4,5].map(s=>{
+        const face={1:'😞',2:'😕',3:'😐',4:'🙂',5:'😄'}[s];
+        const on=(state.moods&&state.moods[tk]&&state.moods[tk].score===s)?'on':'';
+        return '<button class="'+on+'" onclick="setMood('+s+')">'+face+'</button>';
+      }).join('')+'</div>';
 }
 function renderToday(){
   const list=document.getElementById('todayList');
@@ -1332,6 +1419,120 @@ document.addEventListener('click',e=>{
 function find(arr,id){return arr.find(x=>x.id===id);}
 function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 
+/* ---------- cloud storage (name + PIN) ---------- */
+const API='https://planner-server-production-51e1.up.railway.app';
+let auth=(function(){try{return JSON.parse(localStorage.getItem('dayplan_auth'));}catch(e){return null;}})();
+function saveAuth(a){auth=a;localStorage.setItem('dayplan_auth',JSON.stringify(a));}
+let cloudTimer=null,cloudPending=false;
+function cloudSave(){
+  if(!auth)return;
+  cloudPending=true;clearTimeout(cloudTimer);
+  cloudTimer=setTimeout(pushCloud,1800);
+}
+async function pushCloud(){
+  if(!auth)return;cloudPending=false;
+  try{await fetch(API+'/save',{method:'POST',headers:{'content-type':'application/json'},
+    body:JSON.stringify({user:auth.user,pin:auth.pin,data:state})});}catch(e){}
+}
+async function cloudLoad(){
+  if(!auth)return;
+  try{
+    const r=await fetch(API+'/load',{method:'POST',headers:{'content-type':'application/json'},
+      body:JSON.stringify({user:auth.user,pin:auth.pin})});
+    const j=await r.json();
+    if(j&&j.ok&&!j.isNew&&j.data){state=j.data;localStorage.setItem(KEY,JSON.stringify(state));}
+  }catch(e){}
+}
+async function doSignIn(){
+  const user=document.getElementById('siUser').value.trim();
+  const pin=document.getElementById('siPin').value.trim();
+  const err=document.getElementById('siErr'),go=document.getElementById('siGo');
+  if(!user||pin.length<4){err.textContent='Enter a name and a PIN of at least 4 characters.';return;}
+  err.textContent='';go.textContent='…';go.disabled=true;
+  try{
+    const r=await fetch(API+'/load',{method:'POST',headers:{'content-type':'application/json'},
+      body:JSON.stringify({user,pin})});
+    const j=await r.json();
+    if(r.status===401){err.textContent='That name is taken with a different PIN.';go.textContent='Continue';go.disabled=false;return;}
+    if(!j||!j.ok){err.textContent=(j&&j.error)||'Something went wrong.';go.textContent='Continue';go.disabled=false;return;}
+    saveAuth({user,pin});
+    if(!j.isNew&&j.data){state=j.data;localStorage.setItem(KEY,JSON.stringify(state));}
+    document.getElementById('signin').classList.add('hide');
+    init();pushCloud();
+    toast(j.isNew?'Welcome! Your plan is saved to the cloud now.':'Welcome back — your plan loaded.');
+  }catch(e){err.textContent='Could not reach the server. Check your connection.';go.textContent='Continue';go.disabled=false;}
+}
+
+/* ---------- mood ---------- */
+function setMood(s){
+  if(!state.moods)state.moods={};
+  const tk=todayKey();
+  if(state.moods[tk]&&state.moods[tk].score===s)delete state.moods[tk];
+  else state.moods[tk]={score:s};
+  save();renderCheckin();
+}
+
+/* ---------- coach chat ---------- */
+let chatHistory=[],chatBusy=false,awaitingName=false;
+function coachName(){return (state.coach&&state.coach.name)||'Coach';}
+function syncCoachHeader(){document.getElementById('chatName').textContent=coachName();document.getElementById('chatAvatar').textContent=coachName().slice(0,1).toUpperCase();}
+function renderChat(){
+  const box=document.getElementById('chatMsgs');
+  box.innerHTML=chatHistory.map(m=>'<div class="bub '+(m.role==='user'?'me':'coach')+'">'+esc(m.content)+'</div>').join('');
+  box.scrollTop=box.scrollHeight;
+}
+function pushMsg(role,content){chatHistory.push({role,content});renderChat();}
+function openChat(){
+  if(!auth){toast('Sign in first so your coach can see your plan.');return;}
+  document.getElementById('chatPanel').classList.remove('hide');
+  if(!state.coach||!state.coach.name){startNaming();return;}
+  syncCoachHeader();
+  if(!chatHistory.length){renderChat();coachKickoff();}else renderChat();
+  document.getElementById('chatInput').focus();
+}
+function closeChat(){document.getElementById('chatPanel').classList.add('hide');}
+function startNaming(){
+  document.getElementById('chatName').textContent='Your coach';
+  document.getElementById('chatAvatar').textContent='?';
+  chatHistory=[];pushMsg('assistant',"Hey. I'm about to become your coach, and I don't do fluff. Before we start — what do you want to call me?");
+  awaitingName=true;document.getElementById('chatInput').focus();
+}
+function coachRename(){awaitingName=true;pushMsg('assistant','What should my new name be? Type it below.');document.getElementById('chatInput').focus();}
+function coachSend(){
+  const inp=document.getElementById('chatInput');const text=inp.value.trim();if(!text)return;inp.value='';
+  if(awaitingName){
+    state.coach={name:text.slice(0,30)};save();awaitingName=false;syncCoachHeader();
+    pushMsg('user',text);
+    pushMsg('assistant',"Done. I'm "+coachName()+". From here on I'm watching your streak, your focuses, your schedule, all of it. Now — how are you actually doing?");
+    return;
+  }
+  coachAsk(text);
+}
+function coachAsk(text){pushMsg('user',text);coachCall({message:text});}
+function coachKickoff(){coachCall({mode:'kickoff'});}
+function coachWeekly(){coachCall({mode:'weekly'});}
+async function coachCall(opts){
+  if(chatBusy||!auth)return;chatBusy=true;
+  const box=document.getElementById('chatMsgs');
+  const t=document.createElement('div');t.className='bub coach typing';t.textContent=coachName()+' is thinking…';box.appendChild(t);box.scrollTop=box.scrollHeight;
+  try{
+    await pushCloud(); // make sure the coach reads the freshest data
+    const body={user:auth.user,pin:auth.pin,message:opts.message||'',mode:opts.mode||'chat',
+      history:chatHistory.filter(m=>m.role&&m.content).slice(-8)};
+    const r=await fetch(API+'/coach',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});
+    const j=await r.json();t.remove();
+    if(j&&j.ok)pushMsg('assistant',j.reply);
+    else pushMsg('assistant','('+((j&&j.error)||'I could not reply just now. Try again in a moment.')+')');
+  }catch(e){t.remove();pushMsg('assistant','(Could not reach me right now. Check your connection and try again.)');}
+  chatBusy=false;
+}
+
+/* ---------- boot / init ---------- */
+function boot(){
+  if(auth){document.getElementById('signin').classList.add('hide');cloudLoad().then(init);}
+  else{init();document.getElementById('signin').classList.remove('hide');document.getElementById('siUser').focus();}
+}
+
 /* ---------- init ---------- */
 function init(){
   document.getElementById('greet').textContent=greeting()+',';
@@ -1354,12 +1555,14 @@ function init(){
     if(a.doneDate===undefined)a.doneDate=a.done?tk:null;
   });
   if(!Array.isArray(state.schedule))state.schedule=[];
+  if(!state.coach)state.coach={name:null};
+  if(!state.moods)state.moods={};
   save();
   renderKeystone();renderStreak();renderToday();renderAssign();renderCheckin();
   // default due date = today
   document.getElementById('afDue').value=todayKey();
 }
-init();
+boot();
 window.addEventListener('resize',()=>{const cv=document.getElementById('confetti');cv.width=innerWidth;cv.height=innerHeight;});
 </script>
 </body>
