@@ -6,6 +6,9 @@
 <meta name="theme-color" content="#F3EBDD">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Today">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-512.png">
 <title>Today — your day, gently planned</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,7 +64,7 @@
   .tabs{display:flex;gap:8px;background:var(--card2);border:1px solid var(--line);
     border-radius:999px;padding:5px;margin-bottom:18px;box-shadow:var(--shadow-sm)}
   .tab{flex:1;border:0;background:transparent;font-family:'Nunito',sans-serif;font-weight:800;
-    font-size:14.5px;color:var(--ink-soft);padding:11px 8px;border-radius:999px;cursor:pointer;transition:.25s}
+    font-size:13.5px;color:var(--ink-soft);padding:11px 4px;border-radius:999px;cursor:pointer;transition:.25s}
   .tab.active{background:var(--clay);color:#fff;box-shadow:0 6px 16px rgba(180,101,63,.35)}
 
   /* Keystone habit */
@@ -198,6 +201,80 @@
 
   .hint{font-size:12.5px;color:var(--ink-faint);text-align:center;margin:4px 6px 0;line-height:1.5}
 
+  /* Remark / note on items */
+  .it-remark{margin-top:8px;background:var(--card2);border:1px solid var(--line);border-radius:12px;
+    padding:9px 11px;font-size:13px;color:var(--ink-soft);line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
+  .it-remark .rk-lab{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:2px}
+  .rk-edit{width:100%;border:1.5px solid var(--clay);border-radius:12px;padding:9px 11px;margin-top:8px;
+    font-family:'Nunito',sans-serif;font-size:14px;color:var(--ink);background:#fff;outline:none;resize:vertical;min-height:52px;line-height:1.5}
+
+  /* Memories calendar */
+  .memhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .memhead h3{font-size:19px}
+  .memnav{border:1px solid var(--line);background:var(--card);color:var(--ink-soft);border-radius:11px;
+    width:38px;height:38px;font-size:18px;font-weight:800;cursor:pointer;box-shadow:var(--shadow-sm)}
+  .cal{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 14px;box-shadow:var(--shadow);margin-bottom:16px}
+  .cal-wk{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px}
+  .cal-wk span{text-align:center;font-size:10.5px;font-weight:800;color:var(--ink-faint);text-transform:uppercase}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+  .cal-cell{aspect-ratio:1;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    font-size:14px;font-weight:700;color:var(--ink-soft);cursor:pointer;border:1.5px solid transparent;position:relative;transition:.15s}
+  .cal-cell.empty{cursor:default}
+  .cal-cell.has{background:var(--card2)}
+  .cal-cell.today{border-color:var(--clay)}
+  .cal-cell.sel{background:var(--clay);color:#fff}
+  .cal-cell .cdot{width:5px;height:5px;border-radius:50%;background:var(--sage);margin-top:3px}
+  .cal-cell.sel .cdot{background:#fff}
+  .cal-cell.future{opacity:.35}
+  .memdetail{margin-bottom:10px}
+  .memdate{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin:4px 2px 10px;color:var(--ink)}
+  .memsec{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-faint);margin:16px 4px 8px}
+  .memitem{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;box-shadow:var(--shadow-sm);margin-bottom:9px}
+  .memitem .mi-t{font-weight:800;font-size:15px;display:flex;align-items:center;gap:8px}
+  .memitem .mi-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:10px}
+  .memitem .mi-dot.on{background:var(--sage);color:#fff}
+  .memitem .mi-dot.off{border:2px solid var(--sand)}
+  .memitem .mi-meta{font-size:12px;color:var(--ink-faint);margin-top:4px;font-weight:600}
+  .memitem .mi-remark{font-size:13px;color:var(--ink-soft);margin-top:6px;line-height:1.5;white-space:pre-wrap;border-top:1px dashed var(--line);padding-top:6px}
+  .memkey{background:linear-gradient(135deg,#eef3e5,#e6efd8);border:1px solid #dbe6c8;border-radius:14px;padding:12px 14px;margin-bottom:9px;font-weight:700;font-size:14px;color:var(--sage-deep);display:flex;align-items:center;gap:8px}
+
+  /* Schedule blocks */
+  .sblock{display:flex;align-items:flex-start;gap:11px;background:var(--card);border:1px solid var(--line);
+    border-left:4px solid var(--clay);border-radius:12px;padding:10px 12px;margin-bottom:8px;box-shadow:var(--shadow-sm)}
+  .sblock.t-Class{border-left-color:#7C9CC9}
+  .sblock.t-Work{border-left-color:var(--clay)}
+  .sblock.t-Study{border-left-color:var(--sage)}
+  .sblock.t-Other{border-left-color:var(--gold)}
+  .sblock .sb-time{font-weight:800;font-size:13px;color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums;min-width:96px}
+  .sblock .sb-body{flex:1;min-width:0}
+  .sblock .sb-desc{font-weight:700;font-size:14px;line-height:1.3;word-wrap:break-word}
+  .sblock .sb-tags{display:flex;gap:6px;margin-top:4px;align-items:center;flex-wrap:wrap}
+  .sblock .sb-type{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:var(--ink-faint)}
+  .sblock .sb-rep{font-size:10px;font-weight:800;color:var(--sage-deep);background:#eef3e5;border-radius:6px;padding:1px 6px}
+  .sblock .sb-x{border:0;background:transparent;color:var(--ink-faint);font-size:16px;cursor:pointer;padding:0 2px;line-height:1}
+  .sform{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0}
+  .sform .srow{display:flex;gap:8px;align-items:center;margin-bottom:9px}
+  .sform label{font-size:11px;font-weight:800;color:var(--ink-soft);display:block;margin-bottom:5px}
+  .sform input[type=time]{border:1.5px solid var(--line);border-radius:10px;padding:9px 10px;font-family:'Nunito',sans-serif;font-size:14px;background:#fff;color:var(--ink);outline:none;width:100%}
+  .sform input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 11px;font-family:'Nunito',sans-serif;font-size:14px;background:#fff;color:var(--ink);outline:none}
+  .sform .seg button{font-size:12px;padding:8px}
+  .sform .srep{display:flex;align-items:center;gap:8px;margin:10px 0;font-size:13px;font-weight:700;color:var(--ink-soft);cursor:pointer}
+  .sform .srep input{width:18px;height:18px;accent-color:var(--sage)}
+  .sform .sadd{width:100%;border:0;background:var(--clay);color:#fff;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;padding:11px;border-radius:11px;cursor:pointer;margin-top:4px}
+  .addblock{width:100%;border:2px dashed var(--sand);background:transparent;color:var(--clay-deep);font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;padding:12px;border-radius:12px;cursor:pointer;margin-top:6px}
+  .schetot{font-size:12px;color:var(--ink-faint);font-weight:700;margin:2px 2px 8px}
+
+  /* Check-in card */
+  .checkin{background:linear-gradient(135deg,#fff5ea,#fdeede);border:1px solid var(--line);border-radius:var(--r);
+    padding:18px;box-shadow:var(--shadow);margin-bottom:16px}
+  .checkin .ci-lab{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--clay-deep);margin-bottom:6px}
+  .checkin .ci-msg{font-family:'Fraunces',serif;font-size:16px;line-height:1.45;color:var(--ink);font-weight:500}
+  .checkin .ci-stats{display:flex;gap:8px;margin-top:13px;flex-wrap:wrap}
+  .checkin .ci-stat{flex:1;min-width:72px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px 8px;text-align:center}
+  .checkin .ci-stat b{display:block;font-family:'Fraunces',serif;font-size:19px;color:var(--clay-deep);line-height:1}
+  .checkin .ci-stat span{font-size:10px;font-weight:800;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.3px}
+  .checkin .ci-nudge{margin-top:12px;font-size:13px;font-weight:700;color:var(--sage-deep);background:#eef3e5;border-radius:12px;padding:10px 12px;line-height:1.5}
+
   /* Toast / celebration */
   .toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);
     background:var(--ink);color:#fff;font-weight:700;font-size:14px;padding:13px 20px;border-radius:14px;
@@ -231,10 +308,13 @@
   <div class="tabs">
     <button class="tab active" data-tab="today" onclick="switchTab('today')">Today</button>
     <button class="tab" data-tab="assign" onclick="switchTab('assign')">Assignments</button>
+    <button class="tab" data-tab="memories" onclick="switchTab('memories')">Calendar</button>
   </div>
 
   <!-- TODAY -->
   <section id="view-today">
+    <div class="checkin" id="checkinCard"></div>
+
     <div class="keystone" id="keystoneCard"></div>
 
     <div class="daycard">
@@ -265,6 +345,8 @@
         <button data-min="45">45m</button>
         <button data-min="60">60m</button>
       </div>
+      <label>Remark (optional)</label>
+      <textarea id="tfRemark" placeholder="Any note to yourself about this focus…"></textarea>
       <div class="fsave">
         <button class="cancel" onclick="closeForms()">Cancel</button>
         <button class="save" onclick="addFocus()">Add focus</button>
@@ -303,6 +385,8 @@
         <button data-v="Medium" class="on">Medium</button>
         <button data-v="High">High</button>
       </div>
+      <label>Remark (optional)</label>
+      <textarea id="afRemark" placeholder="A note, reminder, or how you're feeling about it…"></textarea>
       <div class="fsave">
         <button class="cancel" onclick="closeForms()">Cancel</button>
         <button class="save" onclick="addAssignment()">Add assignment</button>
@@ -311,6 +395,21 @@
 
     <button class="addbtn" id="assignAdd" onclick="openAssignForm()">+ Add an assignment</button>
     <p class="hint">Dump everything due this month. The app sorts what to do first, so you don't have to.</p>
+  </section>
+
+  <!-- MEMORIES -->
+  <section id="view-memories" class="hide">
+    <div class="memhead">
+      <button class="memnav" onclick="calMove(-1)">‹</button>
+      <h3 id="memMonth">Month</h3>
+      <button class="memnav" onclick="calMove(1)">›</button>
+    </div>
+    <div class="cal">
+      <div class="cal-wk"><span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span></div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+    <div class="memdetail" id="memDetail"></div>
+    <p class="hint">Tap any day with a dot to look back on what you focused on and finished. Your past is saved here.</p>
   </section>
 
   <div class="foot">Saved on this device · <a onclick="resetToday()">reset today's list</a></div>
@@ -325,7 +424,7 @@ const KEY='dayplan_v2';
 let state=load();
 function load(){
   try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return s;}catch(e){}
-  return {focuses:[],assignments:[],streak:0,lastActive:null,graceUsed:false,lastQuoteDay:null,keystone:{name:null,history:{}}};
+  return {focuses:[],assignments:[],streak:0,lastActive:null,graceUsed:false,lastQuoteDay:null,keystone:{name:null,history:{}},schedule:[]};
 }
 function save(){localStorage.setItem(KEY,JSON.stringify(state));}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
@@ -338,30 +437,377 @@ function greeting(){const h=new Date().getHours();return h<12?'Good morning':h<1
 
 /* ---------- quotes (rotate daily) ---------- */
 const QUOTES=[
- ["You don't have to feel like it. You just have to put your shoes on.","shoes on"],
- ["The walk you don't feel like taking is the one that changes the day.","just go"],
+ ["I hope you realize that every day is a fresh start for you.","Juansen Dizon"],
+ ["Every sunrise is a new page. Pick up the pen.","new chapter"],
+ ["You woke up today. That alone is a second chance.","begin again"],
+ ["The morning does not ask what you did yesterday. It only asks what you will do now.","start clean"],
+ ["Today is untouched. Nothing has gone wrong yet. Make it count.","fresh page"],
+ ["A new day is a gift the past cannot take back.","open the gift"],
+ ["Somewhere the sun is rising just to give you another try.","rise with it"],
+ ["Let yesterday stay yesterday. You are not it anymore.","let go"],
+ ["Every morning you are handed a blank canvas. Do not leave it empty.","paint it"],
+ ["The night ended. Whatever you feared, you survived it. Now rise.","you made it"],
+ ["This is the youngest you will ever be again. Begin now.","begin now"],
+ ["Fresh starts are not rare. You get one every single morning.","every morning"],
+ ["The dawn is proof that endings make room for beginnings.","room to grow"],
+ ["You do not need a new year. You need this new hour.","this hour"],
+ ["Wake up like the day depends on you, because it does.","show up"],
+ ["The first light is your reminder that hope resets daily.","hope resets"],
+ ["Yesterday closed. Today opened. Walk through the door.","walk through"],
+ ["Your story is still being written, and you hold the pen.","hold the pen"],
+ ["Mornings are quiet invitations to become someone better.","accept it"],
+ ["Nothing about today is decided yet. That is your power.","your power"],
+ ["Rise gently, but rise. The day is waiting for you.","rise"],
+ ["Each dawn erases the scoreboard. Play again.","play again"],
+ ["You are one morning away from a completely different life.","one morning"],
+ ["The sun came back for you. Return the favor.","return it"],
+ ["Begin before you feel ready. Ready comes from beginning.","just begin"],
+ ["Today is a door, not a wall. Open it.","open it"],
+ ["Let the light in. It has been waiting all night.","let it in"],
+ ["Fresh starts smell like morning air. Go breathe it.","breathe"],
+ ["Whatever broke yesterday, today hands you the glue.","mend it"],
+ ["The best chapter of your life starts on a day like this one.","best chapter"],
+ ["Discipline is choosing what you want most over what you want now.","choose"],
+ ["Show up on the days you do not feel like it. That is the whole secret.","show up anyway"],
+ ["Motivation gets you started. Showing up keeps you going.","keep going"],
+ ["You do not have to be extreme, just consistent.","consistency"],
+ ["The work you avoid is usually the work that frees you.","face it"],
+ ["Small effort, repeated daily, beats big effort once.","daily wins"],
+ ["Do the thing now. Future you is begging for it.","future you"],
+ ["Comfort is a nice place to visit, but nothing grows there.","grow"],
+ ["Discipline is love for your future self.","self love"],
+ ["The hard way is usually the shortcut in disguise.","take it"],
+ ["You are always one decision away from a better day.","decide"],
+ ["Effort is a promise you keep to yourself.","keep it"],
+ ["Nobody feels ready. Do it scared.","do it scared"],
+ ["The pain of discipline is lighter than the pain of regret.","choose the lighter"],
+ ["Win the morning and the day tends to follow.","win the morning"],
+ ["Stop waiting for perfect conditions. Start with what you have.","start now"],
+ ["Your habits are voting for the person you become.","vote wisely"],
+ ["Do it badly if you must, but do it.","just do it"],
+ ["The gap between who you are and who you want to be is what you do daily.","close the gap"],
+ ["Excuses are comfortable. That is exactly why they are dangerous.","drop them"],
+ ["Show up for yourself the way you show up for everyone else.","show up for you"],
+ ["Momentum is built, not found. Take the first step.","build it"],
+ ["Hard now, easy later. Easy now, hard later. Choose.","choose hard now"],
+ ["You will never regret the day you started.","start today"],
+ ["Consistency is what turns wishes into reality.","be consistent"],
+ ["The dream is free. The hustle is sold separately.","pay the price"],
+ ["Be stubborn about your goals and flexible about your methods.","stay stubborn"],
+ ["Action cures fear. Sitting still feeds it.","act"],
+ ["Do what is hard while it is easy. Do the great while it is small.","start small"],
+ ["Discipline is remembering what you want.","remember"],
+ ["This is your life, and it is happening right now.","right now"],
+ ["You will never have more time than you do today.","use it"],
+ ["Someday is not a day of the week. Choose today.","choose today"],
+ ["The best time to start was years ago. The second best time is now.","now"],
+ ["Do not wait. The time will never be just right.","begin"],
+ ["A year from now you will wish you had started today.","start"],
+ ["Time spent scrolling is time borrowed from your dreams.","reclaim it"],
+ ["Now is the only moment you can actually change.","this moment"],
+ ["Lost time is never found again.","spend it well"],
+ ["You cannot get today back. Live it like it matters.","it matters"],
+ ["Stop counting the days. Make the days count.","make them count"],
+ ["The clock is ticking whether you move or not. Move.","move"],
+ ["Do not save your best for a tomorrow that is not promised.","give your best"],
+ ["Every hour you waste, someone else is using to rise.","rise instead"],
+ ["The future is built out of ordinary todays.","build today"],
+ ["Time is the one thing you cannot earn back. Guard it.","guard it"],
+ ["Waiting is a decision too, and usually the wrong one.","decide to act"],
+ ["Your life is what you do with the next ten minutes, over and over.","next ten"],
+ ["One tiny step today beats a giant leap never taken.","take the step"],
+ ["Progress is progress, no matter how small.","keep moving"],
+ ["You do not have to see the whole staircase. Just take the first step.","first step"],
+ ["Small steps every day add up to a different life.","add them up"],
+ ["Inch by inch, life is a cinch.","inch forward"],
+ ["The mountain is climbed one footstep at a time.","one step"],
+ ["Do not despise small beginnings. That is where everything starts.","start small"],
+ ["A little progress each day builds something remarkable.","little by little"],
+ ["You are closer than you were yesterday. Keep going.","keep going"],
+ ["Tiny wins stack into big change. Collect them.","collect wins"],
+ ["Slow progress is still progress. Do not stop.","do not stop"],
+ ["The finish line moves closer every time you move.","keep moving"],
+ ["Done is better than perfect. Finish something small.","finish it"],
+ ["What you do repeatedly shapes who you become.","repeat it"],
+ ["One page a day is a book a year.","one page"],
+ ["Growth hides inside the boring, repeated basics.","do the basics"],
+ ["Every expert was once a beginner who refused to quit.","keep at it"],
+ ["Trust the process even when you cannot see the progress.","trust it"],
+ ["Little by little, a little becomes a lot.","a little"],
+ ["The seeds you plant today become tomorrow's shade.","plant seeds"],
+ ["Keep watering it. Growth is quiet before it is obvious.","water it"],
+ ["You are not behind. You are exactly where the work begins.","begin here"],
+ ["Fall seven times, stand up eight.","stand up"],
+ ["Failure is not the opposite of success. It is part of it.","part of it"],
+ ["The comeback is always stronger than the setback.","come back"],
+ ["Rock bottom became the foundation on which I rebuilt my life.","rebuild"],
+ ["You have survived every worst day so far. That is a perfect record.","perfect record"],
+ ["Storms make trees take deeper roots.","root down"],
+ ["What tries to break you is often building you.","let it build you"],
+ ["Scars are proof that you healed, not that you lost.","you healed"],
+ ["The wound is the place where the light enters you.","let light in"],
+ ["Do not let a hard day convince you it is a hard life.","one day"],
+ ["Fear is loudest right before you grow.","grow through it"],
+ ["You are allowed to begin again, as many times as you need.","begin again"],
+ ["Setbacks are setups for comebacks.","comeback loading"],
+ ["Even the darkest night will end and the sun will rise.","dawn is coming"],
+ ["Courage is not the absence of fear, but moving with it.","move anyway"],
+ ["The strongest people are forged in the fires they walked through.","you are steel"],
+ ["Turn the wound into wisdom.","learn"],
+ ["It is okay to fall apart sometimes. Then gather yourself and rise.","rise again"],
+ ["You were not made to give up. You were made to endure.","endure"],
+ ["Difficult roads often lead to beautiful destinations.","keep walking"],
+ ["Your struggle today is your strength tomorrow.","get stronger"],
+ ["The bravest thing you can do is try again.","try again"],
+ ["Every setback is a lesson wearing a disguise.","find the lesson"],
+ ["Keep going. Everything you need is on the other side of hard.","push through"],
+ ["Believe you can and you are halfway there.","Theodore Roosevelt"],
+ ["Whether you think you can or you cannot, you are right.","Henry Ford"],
+ ["You are capable of more than you know. Start acting like it.","act like it"],
+ ["Doubt kills more dreams than failure ever will.","drop the doubt"],
+ ["The only limit is the one you accept.","refuse it"],
+ ["Talk to yourself like someone you are rooting for.","root for you"],
+ ["You are not too late, too old, or too far gone. Begin.","begin"],
+ ["Bet on yourself. You are a safer bet than you think.","bet on you"],
+ ["The person you are becoming is worth every hard day.","worth it"],
+ ["You have everything within you to start right now.","within you"],
+ ["Confidence comes from keeping the promises you make to yourself.","keep promises"],
+ ["Your potential is not up for negotiation with your fears.","claim it"],
+ ["Speak to your future, not your doubts.","speak up"],
+ ["You are the hero of this story, so start acting like one.","be the hero"],
+ ["Nobody is coming to save you, and that is your freedom.","free yourself"],
+ ["The magic you are looking for is in the work you are avoiding.","find it"],
+ ["You are one brave choice away from a new chapter.","choose brave"],
+ ["Stop shrinking to fit places you have outgrown.","grow"],
+ ["Your dreams do not care about your doubts. Chase them.","chase"],
+ ["You are allowed to want a bigger life.","want more"],
+ ["Trust the quiet voice that says you are meant for more.","trust it"],
  ["Motion first. The mood follows.","move, then feel"],
- ["Ten minutes outside beats an hour of scrolling.","step outside"],
  ["Your body was built to move. Give it the chance today.","move today"],
- ["Small steps, taken daily, become a different life.","one step today"],
+ ["A walk can fix what an hour of worrying cannot.","just walk"],
+ ["Ten minutes outside beats an hour of scrolling.","step outside"],
  ["The hardest part is the front door. Walk through it.","just the door"],
- ["You are one walk away from a better mood.","one walk away"],
+ ["You are one walk away from a better mood.","one walk"],
  ["Fresh air clears what worry clouds.","go get air"],
- ["Consistency beats intensity. Just show up and move.","show up, move"],
+ ["Legs moving, mind settling. That is the trade.","walk it out"],
+ ["Your future self is built by the steps you take today.","take steps"],
+ ["Move your body and your mind will follow.","get moving"],
  ["A year of daily walks is a whole new you.","keep walking"],
- ["Legs moving, mind settling. That's the trade.","walk it out"],
- ["You changed your mind about your life. Now take the first step.","first step"],
- ["You are not behind. You're exactly where the work begins.","begin here"],
- ["Done is a walk finished, not a walk planned.","finish the walk"],
+ ["Sweat today so you can smile tomorrow.","earn it"],
+ ["The body achieves what the mind believes. Start moving.","believe, move"],
+ ["Motion is the antidote to overthinking.","just move"],
+ ["Nothing outside will feel as heavy as staying still.","get up"],
+ ["Take care of your body. It is the only place you have to live.","Jim Rohn"],
+ ["Your health is the crown that only the sick can see.","protect it"],
+ ["Walk like your worries are chasing you and you are faster.","outrun it"],
+ ["Every step outside is a small vote for the life you want.","vote for it"],
+ ["The morning walk is a blessing for the whole day.","Henry David Thoreau"],
+ ["Move first thing, before the excuses wake up.","beat them"],
+ ["Strong body, quiet mind. Go earn both.","earn both"],
+ ["A short walk taken is worth more than a long run planned.","just go"],
+ ["Let your feet lead when your head is loud.","walk it off"],
+ ["Put your shoes on. Everything else gets easier after that.","shoes on"],
+ ["Go confidently in the direction of your dreams.","Henry David Thoreau"],
+ ["A goal without a plan is just a wish. Start planning.","plan it"],
+ ["Dreams do not work unless you do.","John C. Maxwell"],
+ ["Your purpose is not found. It is built, day by day.","build it"],
+ ["Aim for the moon. Even a miss lands among stars.","aim high"],
+ ["The two most important days are the day you are born and the day you find out why.","Mark Twain"],
+ ["Do something today that your future self will thank you for.","thank you"],
+ ["A dream written down with a date becomes a goal.","write it"],
+ ["You were not born to just pay bills and die.","live fully"],
+ ["Chase purpose, and happiness will follow you home.","chase purpose"],
+ ["Big dreams start as quiet, stubborn whispers. Listen.","listen"],
+ ["Your life has a purpose bigger than your fear.","go find it"],
+ ["Build a life you do not need a vacation from.","build it"],
+ ["What would you attempt if you knew you could not fail?","attempt it"],
+ ["Purpose turns ordinary days into meaningful ones.","find purpose"],
+ ["The size of your dream should scare you a little.","dream bigger"],
+ ["Live the life you have imagined.","Henry David Thoreau"],
+ ["Do not die with your music still inside you.","play it"],
+ ["Make your life a story worth telling.","write it well"],
+ ["Follow the thread of what excites you. It leads somewhere.","follow it"],
+ ["Everything you want is on the other side of fear.","cross over"],
+ ["Feel the fear and do it anyway.","Susan Jeffers"],
+ ["Courage is being scared and showing up regardless.","show up scared"],
+ ["Do one thing every day that scares you.","Eleanor Roosevelt"],
+ ["Fortune favors the bold. Be bold.","be bold"],
+ ["The cave you fear to enter holds the treasure you seek.","Joseph Campbell"],
+ ["Your comfort zone is a beautiful cage. Open the door.","step out"],
+ ["Be brave enough to be bad at something new.","try it"],
+ ["Fear is a liar. Walk toward the thing anyway.","walk toward it"],
+ ["Courage is a muscle. Use it and it grows.","flex it"],
+ ["What if it goes right? Try for that.","go for it"],
+ ["The risk of doing nothing is the biggest risk of all.","risk it"],
+ ["Leap, and the net will appear.","leap"],
+ ["Brave is not fearless. Brave is scared and still moving.","keep moving"],
+ ["You will not grow if you only do what is safe.","grow"],
+ ["Say yes, then figure it out.","say yes"],
+ ["The bold get bruised, but the timid get nothing.","be bold"],
+ ["On the far side of fear is everything you want.","go there"],
+ ["Be afraid and do it anyway. That is where you find yourself.","find yourself"],
+ ["Courage does not always roar. Sometimes it just tries again.","try again"],
+ ["Where focus goes, energy flows.","Tony Robbins"],
+ ["You cannot chase two rabbits and catch either.","pick one"],
+ ["Do less, but do it with your whole heart.","go all in"],
+ ["Distraction is the thief of the life you want.","guard focus"],
+ ["One task at a time is how big things get done.","one thing"],
+ ["Protect your attention like it is your most valuable asset, because it is.","protect it"],
+ ["Focus is choosing what to ignore.","ignore the rest"],
+ ["The phone can wait. Your dreams cannot.","choose dreams"],
+ ["Deep work in a distracted world is a superpower.","go deep"],
+ ["Clarity comes from doing, not from thinking about doing.","just do"],
+ ["A focused hour beats a distracted day.","one hour"],
+ ["Single-task like your goals depend on it, because they do.","single-task"],
+ ["Starve your distractions, feed your focus.","feed focus"],
+ ["Attention is the rarest form of generosity you can give yourself.","give it"],
+ ["Quiet the noise. Your best ideas are whispering.","get quiet"],
+ ["What gets your attention gets your life.","choose well"],
+ ["Put first things first, and second things not at all.","first things"],
+ ["Concentrate all your thoughts on the task at hand.","Alexander Graham Bell"],
+ ["The main thing is to keep the main thing the main thing.","stay on it"],
+ ["Cut the noise. Keep the signal.","keep signal"],
+ ["Gratitude turns what you have into enough.","be grateful"],
+ ["Start the day by naming one thing you are thankful for.","name it"],
+ ["Joy is not found in more. It is found in noticing.","notice"],
+ ["The present moment is the only place life ever happens.","be here"],
+ ["Enjoy the little things. One day they were the big things.","savor them"],
+ ["Happiness is a direction, not a destination.","keep facing it"],
+ ["Be where your feet are.","be present"],
+ ["A grateful heart is a magnet for good days.","stay grateful"],
+ ["Slow down enough to let your life catch up with you.","slow down"],
+ ["What you appreciate, appreciates.","appreciate it"],
+ ["Count your blessings and they multiply.","count them"],
+ ["Peace begins the moment you stop comparing.","stop comparing"],
+ ["This ordinary day is someone else's dream. Live it well.","live it"],
+ ["Breathe. You are alive, and that is extraordinary.","breathe"],
+ ["Find the good. It is always there, even when small.","find it"],
+ ["Presence is the greatest gift you can give this day.","be present"],
+ ["Wherever you are, be all there.","Jim Elliot"],
+ ["The best moment to be happy is the one you are in.","this one"],
+ ["Let today be enough. It is.","enough"],
+ ["You are not who you were, and not yet who you will be. Keep going.","keep going"],
+ ["Grow through what you go through.","grow"],
+ ["Become the person your goals require.","become"],
+ ["Change is hard at first, messy in the middle, and gorgeous at the end.","stay for the end"],
+ ["Every day is a chance to build a better version of you.","build you"],
+ ["You are always one habit away from a new identity.","one habit"],
+ ["Do not shrink your dreams. Grow into them.","grow into it"],
+ ["The caterpillar had to dissolve to become the butterfly.","transform"],
+ ["Outgrow the version of you that settled.","outgrow it"],
+ ["Reinvention is your birthright. Use it often.","reinvent"],
+ ["You are a work in progress, and that is a beautiful thing.","in progress"],
+ ["Become someone your younger self would be proud of.","make them proud"],
+ ["The goal is not to be perfect. The goal is to be better than yesterday.","better today"],
+ ["Water the seeds of who you are becoming.","water them"],
+ ["Every choice is a chisel shaping who you are.","carve it"],
+ ["Let the old you rest. The new you has work to do.","new you"],
+ ["Growth requires shedding the comfort of who you were.","shed it"],
+ ["You can start becoming your future self this very minute.","start now"],
+ ["The only person you should compare yourself to is who you were yesterday.","beat yesterday"],
+ ["Improvement is a decision you make again and again.","decide again"],
+ ["Your identity follows your actions. Act like the new you.","act it"],
+ ["Small daily disciplines compound into a remarkable life.","compound it"],
+ ["We are what we repeatedly do. Excellence is a habit.","Aristotle"],
+ ["Motivation is what gets you started. Habit is what keeps you going.","Jim Ryun"],
+ ["Do it again tomorrow. That is the whole game.","again tomorrow"],
+ ["Chains of habit are too light to feel until too heavy to break. Build good ones.","build good ones"],
+ ["Your daily routine is your life in miniature.","design it"],
+ ["Show up so often that quitting feels strange.","keep showing up"],
+ ["The streak matters less than the identity it builds.","become it"],
+ ["Make the good choice the easy choice.","make it easy"],
+ ["Habits are the compound interest of self-improvement.","invest daily"],
+ ["Miss once, never twice. Get right back to it.","back to it"],
+ ["The system beats the goal. Build the system.","build systems"],
+ ["Repetition is the mother of mastery.","repeat"],
+ ["What is easy to do is also easy not to do. Do it.","do it"],
+ ["Discipline today is freedom tomorrow.","earn freedom"],
+ ["You do not rise to your goals. You fall to your habits.","raise your habits"],
+ ["One good habit can quietly rewrite your whole life.","one habit"],
+ ["Be regular and orderly in your life, so you can be bold in your work.","Gustave Flaubert"],
+ ["The secret of getting ahead is getting started.","Mark Twain"],
+ ["It always seems impossible until it is done.","Nelson Mandela"],
+ ["The journey of a thousand miles begins with a single step.","Lao Tzu"],
+ ["It does not matter how slowly you go as long as you do not stop.","Confucius"],
+ ["The future belongs to those who believe in the beauty of their dreams.","Eleanor Roosevelt"],
+ ["Success is not final, failure is not fatal. It is the courage to continue that counts.","Winston Churchill"],
+ ["What you get by achieving your goals is not as important as who you become.","Zig Ziglar"],
+ ["The only way to do great work is to love what you do.","Steve Jobs"],
+ ["Start where you are. Use what you have. Do what you can.","Arthur Ashe"],
+ ["Hardships often prepare ordinary people for an extraordinary destiny.","C.S. Lewis"],
+ ["Act as if what you do makes a difference. It does.","William James"],
+ ["The best way to predict the future is to create it.","Peter Drucker"],
+ ["You miss one hundred percent of the shots you do not take.","Wayne Gretzky"],
+ ["Everything you can imagine is real.","Pablo Picasso"],
+ ["What lies behind us and before us are tiny matters compared to what lies within us.","Ralph Waldo Emerson"],
+ ["Do what you can, with what you have, where you are.","Theodore Roosevelt"],
+ ["Perseverance is failing nineteen times and succeeding the twentieth.","Julie Andrews"],
+ ["It is hard to beat a person who never gives up.","Babe Ruth"],
+ ["Our greatest glory is not in never falling, but in rising every time we fall.","Confucius"],
+ ["The beginning is always today.","Mary Shelley"],
+ ["Be willing to be a beginner every single morning.","Meister Eckhart"],
+ ["If you do not like the road you are walking, start paving another one.","Dolly Parton"],
+ ["It is never too late to be what you might have been.","George Eliot"],
+ ["Keep your face always toward the sunshine and shadows will fall behind you.","Walt Whitman"],
+ ["Life is ten percent what happens to you and ninety percent how you respond.","Lou Holtz"],
+ ["The harder you work for something, the greater you will feel when you achieve it.","unknown"],
+ ["Fall in love with the process and the results will come.","Eric Thomas"],
+ ["You are braver than you believe, stronger than you seem, and smarter than you think.","A.A. Milne"],
+ ["Great things never came from comfort zones.","unknown"],
+ ["Wake up with determination, go to bed with satisfaction.","unknown"],
+ ["Push yourself, because no one else is going to do it for you.","unknown"],
+ ["Little things make big days.","unknown"],
+ ["Dream it. Wish it. Do it.","unknown"],
+ ["Sometimes later becomes never. Do it now.","do it now"],
+ ["Your only limit is you. Get out of your own way.","get out of the way"],
+ ["Difficult roads lead to beautiful destinations.","keep going"],
+ ["Do not stop until you are proud.","make yourself proud"],
+ ["One day or day one. You decide.","day one"],
+ ["Bloom where you are planted, then plant yourself somewhere bigger.","bloom"],
+ ["The sun does not skip a morning. Neither should you.","every day"],
+ ["Your dreams are valid, and today is a good day to chase them.","chase them"],
+ ["Do not count the days. Make the days count and they will count you.","make them count"],
+ ["Wake up and be awesome. The world can wait for your excuses forever.","be awesome"],
+ ["The best project you will ever work on is you.","work on you"],
+ ["You did not come this far to only come this far.","keep going"],
+ ["Turn your cannot into a plan and your plan into action.","plan and act"],
+ ["Rise up, start fresh, see the bright opportunity in each new day.","see it"],
+ ["Some people dream of success while others wake up and work for it.","work for it"],
+ ["The only bad workout, walk, or start is the one that did not happen.","just start"],
+ ["A river cuts through rock not by power but by persistence.","persist"],
+ ["Plant your garden instead of waiting for someone to bring you flowers.","plant it"],
+ ["Do the best you can until you know better. Then do better.","Maya Angelou"],
+ ["Nothing is impossible. The word itself says I am possible.","Audrey Hepburn"],
+ ["You are enough, exactly as you are, and capable of so much more.","you are enough"],
+ ["Let your faith be bigger than your fear.","have faith"],
+ ["Every accomplishment starts with the decision to try.","decide to try"],
+ ["The energy you bring to the morning sets the tone for it all.","bring it"],
+ ["Be the reason someone believes in good days, starting with you.","be the reason"],
+ ["When you feel like quitting, remember why you started.","remember why"],
+ ["Doubt your doubts before you doubt your dreams.","doubt the doubt"],
+ ["A comfort zone is a beautiful place, but nothing ever grows there.","leave it"],
+ ["Make today so good that yesterday gets jealous.","outshine it"],
+ ["Do not wait for opportunity. Create it.","create it"],
+ ["The struggle you are in today develops the strength you need tomorrow.","get strong"],
+ ["If it is important to you, you will find a way. If not, an excuse.","find a way"],
+ ["The only impossible journey is the one you never begin.","begin it"],
+ ["You have not failed until you quit trying.","keep trying"],
+ ["Be so busy improving yourself that you have no time to doubt.","improve"],
+ ["The sky is not the limit. Your belief is.","raise it"],
+ ["Even slow steps move you forward. Never backward.","forward only"],
+ ["Great mornings are decided the moment you refuse to hit snooze.","get up"],
+ ["Trade the words someday and maybe for today and yes.","today and yes"],
+ ["Do it now. Sometimes now becomes the story you are proud of.","do it now"],
+ ["Your life does not get better by chance. It gets better by change.","Jim Rohn"],
+ ["The world is changed by your example, not your opinion.","Paulo Coelho"],
+ ["A little progress each day adds up to big results.","add up"],
+ ["Fresh mornings are nature's way of saying try again.","try again"]
 ];
+function dayOfYear(d){const s=new Date(d.getFullYear(),0,0);return Math.floor((d-s)/86400000);}
 function pickQuote(){
-  const tk=todayKey();
-  if(state.lastQuoteDay!==tk){
-    // deterministic-by-day so it changes each day but is stable within a day
-    const seed=tk.split('-').join('')%QUOTES.length;
-    state.quoteIdx=seed;state.lastQuoteDay=tk;save();
-  }
-  return QUOTES[state.quoteIdx??0];
+  // one quote per calendar day, cycling through the whole year
+  const doy=dayOfYear(new Date());
+  return QUOTES[((doy-1)%QUOTES.length+QUOTES.length)%QUOTES.length];
 }
 const CHEERS=["Nice. That's momentum.","One down. Feel that?","Look at you go.","That's a win. Bank it.","Proud of you. Keep rolling.","Yes! Future you says thanks.","Clean. On to the next.","That's how it's done."];
 
@@ -446,15 +892,54 @@ function toggleKeystone(){
   const tk=todayKey();const h=state.keystone.history;
   if(h[tk]){delete h[tk];}
   else{h[tk]=true;celebrate();}
-  save();renderKeystone();renderStreak();
+  save();renderKeystone();renderStreak();renderCheckin();
 }
 
 /* ---------- TODAY ---------- */
 const RING_C=201;
+function todayFocuses(){return state.focuses.filter(x=>x.date===todayKey());}
+function renderCheckin(){
+  const el=document.getElementById('checkinCard');if(!el)return;
+  const tk=todayKey();
+  const tf=todayFocuses();
+  const doneF=tf.filter(x=>x.done).length;
+  const streak=computeStreak();
+  const ksName=(state.keystone&&state.keystone.name)||null;
+  const ksDone=!!(state.keystone&&state.keystone.history&&state.keystone.history[tk]);
+  const schedMin=scheduleForDate(tk).reduce((s,b)=>s+Math.max(0,blockMinutes(b)),0);
+  const schedH=Math.round(schedMin/6)/10;
+  const weekKeys=[];for(let i=0;i<7;i++){const dd=new Date();dd.setDate(dd.getDate()-i);weekKeys.push(ymd(dd));}
+  const weekDone=state.focuses.filter(f=>f.done&&weekKeys.includes(f.date)).length;
+  const overdue=state.assignments.filter(a=>!a.done&&a.due&&a.due<tk).length;
+  const hr=new Date().getHours();
+  let msg;
+  if(!ksName){msg='Set your one keystone habit below and the streak starts today. Small is fine.';}
+  else if(streak>=14){msg=streak+' days of '+ksName.toLowerCase()+'. This is not a phase anymore. It is who you are.';}
+  else if(streak>=7){msg='A full week of '+ksName.toLowerCase()+'. You are proving something to yourself. Keep it lit.';}
+  else if(streak>=1){msg='You are '+streak+' day'+(streak>1?'s':'')+' in. Momentum is real, and it is yours. Guard it today.';}
+  else if(hr<12){msg='A fresh morning, a clean page. One small win and the chain begins again.';}
+  else{msg='The day is not over. One walk, one focus, one small win still counts.';}
+  let nudge;
+  if(overdue>0){nudge='⚠ '+overdue+' assignment'+(overdue>1?'s are':' is')+' overdue. Open the Calendar and block time for the most urgent one.';}
+  else if(ksName&&!ksDone){nudge='Your keystone ('+ksName+') is not checked off yet. Do it, then tap the circle.';}
+  else if(tf.length===0){nudge='No focuses set yet. Pick three small things you will actually finish today.';}
+  else if(tf.length>0&&doneF===tf.length){nudge='Every focus done. If you have energy left, pull one assignment forward.';}
+  else if(schedMin>0&&doneF===0){nudge='You have '+schedH+' h scheduled today. Start the first block and check one focus off.';}
+  else{nudge='Keep going. One finished thing beats ten planned ones.';}
+  el.innerHTML='<div class="ci-lab">✦ Your check-in</div>'
+    +'<div class="ci-msg">'+msg+'</div>'
+    +'<div class="ci-stats">'
+    +'<div class="ci-stat"><b>'+doneF+'/'+tf.length+'</b><span>focuses</span></div>'
+    +'<div class="ci-stat"><b>'+streak+'</b><span>day streak</span></div>'
+    +'<div class="ci-stat"><b>'+schedH+'h</b><span>scheduled</span></div>'
+    +'<div class="ci-stat"><b>'+weekDone+'</b><span>done · 7d</span></div>'
+    +'</div>'
+    +'<div class="ci-nudge">'+nudge+'</div>';
+}
 function renderToday(){
   const list=document.getElementById('todayList');
   list.innerHTML='';
-  const f=state.focuses;
+  const f=todayFocuses();
   if(f.length===0){
     list.innerHTML='<div class="empty"><div class="em">🌱</div><p>A clear, empty day.<br>Add your first focus below.</p></div>';
   }
@@ -471,6 +956,7 @@ function renderToday(){
   if(total===0){head.textContent="Let's begin";line.textContent="Pick 3–5 things to focus on.";mins.textContent='';}
   else if(done===total){head.textContent="All done. 🌟";line.textContent="You cleared your whole list. Rest easy.";mins.textContent=doneMin+' focused minutes today';}
   else{head.textContent=done+' of '+total+' done';line.textContent=done===0?"Tap the circle to start winning.":"Keep the momentum going.";mins.textContent=planned+' min still planned · '+doneMin+' min done';}
+  renderCheckin();
 }
 function focusCard(x){
   const el=document.createElement('div');
@@ -490,14 +976,20 @@ function focusCard(x){
             <button class="btn-reset" onclick="resetTimer('${x.id}')">↺</button>
           </div>
         </div>
+        ${x.remark&&!x.remarkOpen?`<div class="it-remark"><span class="rk-lab">Remark</span>${esc(x.remark)}</div>`:''}
+        ${x.remarkOpen?`<textarea class="rk-edit" placeholder="Write a remark…" oninput="setFocusRemark('${x.id}',this.value)">${esc(x.remark||'')}</textarea>`:''}
         <div class="it-actions">
           ${x.done?'':`<button class="mini ghost" onclick="toggleTimer('${x.id}')">${x.timerOpen?'Hide timer':'⏱ Timer'}</button>`}
+          <button class="mini ${x.remarkOpen?'primary':'ghost'}" onclick="toggleFocusRemark('${x.id}')">${x.remarkOpen?'✓ Save note':(x.remark?'✎ Remark':'＋ Remark')}</button>
           <button class="mini ghost" onclick="removeFocus('${x.id}')">Remove</button>
         </div>
       </div>
     </div>`;
   return el;
 }
+function toggleFocusRemark(id){const x=find(state.focuses,id);x.remarkOpen=!x.remarkOpen;save();renderToday();
+  if(x.remarkOpen){const t=document.querySelector('#todayList .rk-edit');if(t){t.focus();t.setSelectionRange(t.value.length,t.value.length);}}}
+function setFocusRemark(id,v){const x=find(state.focuses,id);if(x){x.remark=v;save();}}
 function toggleTimer(id){const x=find(state.focuses,id);x.timerOpen=!x.timerOpen;save();renderToday();}
 function toggleFocus(id){
   const x=find(state.focuses,id);
@@ -509,11 +1001,12 @@ function removeFocus(id){stopTimer(id);state.focuses=state.focuses.filter(f=>f.i
 function addFocus(){
   const t=document.getElementById('tfTitle').value.trim();if(!t)return;
   const min=+document.querySelector('#tfMinSeg .on').dataset.min;
-  state.focuses.push({id:uid(),title:t,min,done:false,remain:min*60,timerOpen:false,running:false});
-  document.getElementById('tfTitle').value='';save();closeForms();renderToday();
+  const remark=document.getElementById('tfRemark').value.trim();
+  state.focuses.push({id:uid(),title:t,min,done:false,remain:min*60,timerOpen:false,running:false,date:todayKey(),remark,remarkOpen:false});
+  document.getElementById('tfTitle').value='';document.getElementById('tfRemark').value='';save();closeForms();renderToday();
 }
-function resetToday(){if(confirm("Clear today's focus list? Your assignments and streak stay.")){
-  Object.keys(timers).forEach(clearInt);state.focuses=[];save();renderToday();}}
+function resetToday(){if(confirm("Clear today's focus list? Past days in Memories, your assignments and streak all stay.")){
+  Object.keys(timers).forEach(clearInt);state.focuses=state.focuses.filter(f=>f.date!==todayKey());save();renderToday();}}
 
 /* ---------- timers ---------- */
 let timers={};
@@ -641,10 +1134,13 @@ function assignCard(a){
           <span class="chip imp-${a.imp}">${a.imp}</span>
           <span class="chip eff-${a.effort}">${a.effort}</span>
         </div>
-        ${a.done?'':`<div class="it-actions">
-          <button class="mini primary" onclick="sendToToday('${a.id}')">Add to today</button>
-          <button class="mini ghost" onclick="removeAssign('${a.id}')">Delete</button>
-        </div>`}
+        ${a.remark&&!a.remarkOpen?`<div class="it-remark"><span class="rk-lab">Remark</span>${esc(a.remark)}</div>`:''}
+        ${a.remarkOpen?`<textarea class="rk-edit" placeholder="Write a remark…" oninput="setAssignRemark('${a.id}',this.value)">${esc(a.remark||'')}</textarea>`:''}
+        <div class="it-actions">
+          ${a.done?'':`<button class="mini primary" onclick="sendToToday('${a.id}')">Add to today</button>`}
+          <button class="mini ${a.remarkOpen?'primary':'ghost'}" onclick="toggleAssignRemark('${a.id}')">${a.remarkOpen?'✓ Save note':(a.remark?'✎ Remark':'＋ Remark')}</button>
+          ${a.done?'':`<button class="mini ghost" onclick="removeAssign('${a.id}')">Delete</button>`}
+        </div>
       </div>
     </div>`;
   return el;
@@ -658,7 +1154,10 @@ function dueText(due){
   const dt=new Date(due+'T00:00');
   return 'Due '+dt.toLocaleDateString(undefined,{month:'short',day:'numeric'});
 }
-function toggleAssign(id){const a=find(state.assignments,id);a.done=!a.done;if(a.done){celebrate();}save();renderAssign();}
+function toggleAssign(id){const a=find(state.assignments,id);a.done=!a.done;if(a.done){a.doneDate=todayKey();celebrate();}else{a.doneDate=null;}save();renderAssign();}
+function toggleAssignRemark(id){const a=find(state.assignments,id);a.remarkOpen=!a.remarkOpen;save();renderAssign();
+  if(a.remarkOpen){const t=document.querySelector('#assignList .rk-edit');if(t){t.focus();t.setSelectionRange(t.value.length,t.value.length);}}}
+function setAssignRemark(id,v){const a=find(state.assignments,id);if(a){a.remark=v;save();}}
 function removeAssign(id){state.assignments=state.assignments.filter(a=>a.id!==id);save();renderAssign();}
 function addAssignment(){
   const t=document.getElementById('afTitle').value.trim();if(!t)return;
@@ -666,15 +1165,16 @@ function addAssignment(){
     desc:document.getElementById('afDesc').value.trim(),
     due:document.getElementById('afDue').value||null,
     effort:document.querySelector('#afEffort .on').dataset.v,
-    imp:document.querySelector('#afImp .on').dataset.v,done:false};
+    imp:document.querySelector('#afImp .on').dataset.v,done:false,doneDate:null,
+    remark:document.getElementById('afRemark').value.trim(),remarkOpen:false};
   state.assignments.push(a);save();closeForms();
-  document.getElementById('afTitle').value='';document.getElementById('afDesc').value='';document.getElementById('afDue').value='';
+  document.getElementById('afTitle').value='';document.getElementById('afDesc').value='';document.getElementById('afDue').value='';document.getElementById('afRemark').value='';
   renderAssign();toast('Added. It\'s in your sorted list now.');
 }
 function sendToToday(id){
   const a=find(state.assignments,id);if(!a)return;
   const min=({Quick:15,Medium:25,Big:45})[a.effort]||25;
-  state.focuses.push({id:uid(),title:a.title,min,done:false,remain:min*60,timerOpen:false,running:false,from:id});
+  state.focuses.push({id:uid(),title:a.title,min,done:false,remain:min*60,timerOpen:false,running:false,from:id,date:todayKey(),remark:a.remark||'',remarkOpen:false});
   save();switchTab('today');renderToday();toast('"'+a.title+'" added to today with a '+min+'-min timer.');
 }
 
@@ -699,12 +1199,122 @@ function confetti(){
   })();
 }
 
+/* ---------- MEMORIES (calendar) ---------- */
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+let memState={y:new Date().getFullYear(),m:new Date().getMonth(),sel:null};
+function keyOf(y,m,d){return y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');}
+function dayData(key){
+  return {
+    focuses: state.focuses.filter(f=>f.date===key),
+    adone: state.assignments.filter(a=>a.done&&a.doneDate===key),
+    keystone: !!(state.keystone&&state.keystone.history&&state.keystone.history[key])
+  };
+}
+function hasActivity(key){const d=dayData(key);return d.focuses.length>0||d.adone.length>0||d.keystone;}
+function scheduleForDate(key){
+  const wd=new Date(key+'T00:00').getDay();
+  const list=state.schedule.filter(s=> (s.repeatWeekly? (s.weekday===wd && (!s.start || key>=s.start)) : s.date===key) );
+  return list.sort((a,b)=>(a.from||'').localeCompare(b.from||''));
+}
+function hasSchedule(key){return scheduleForDate(key).length>0;}
+function calMove(delta){
+  memState.m+=delta;
+  if(memState.m<0){memState.m=11;memState.y--;}
+  if(memState.m>11){memState.m=0;memState.y++;}
+  memState.sel=null;renderMemories();
+}
+function renderMemories(){
+  document.getElementById('memMonth').textContent=MONTHS[memState.m]+' '+memState.y;
+  const grid=document.getElementById('calGrid');grid.innerHTML='';
+  const tk=todayKey();
+  const first=new Date(memState.y,memState.m,1).getDay();
+  const days=new Date(memState.y,memState.m+1,0).getDate();
+  for(let i=0;i<first;i++){const c=document.createElement('div');c.className='cal-cell empty';grid.appendChild(c);}
+  for(let d=1;d<=days;d++){
+    const key=keyOf(memState.y,memState.m,d);
+    const c=document.createElement('div');
+    const dot=hasActivity(key)||hasSchedule(key);
+    c.className='cal-cell has'+(key===tk?' today':'')+(key===memState.sel?' sel':'');
+    c.innerHTML=d+(dot?'<span class="cdot"></span>':'');
+    c.onclick=()=>{memState.sel=key;renderMemories();};
+    grid.appendChild(c);
+  }
+  renderMemDetail();
+}
+let schedFormOpen=false;
+function fmt12(t){if(!t)return'';const p=t.split(':');let h=+p[0];const m=p[1];const ap=h<12?'AM':'PM';let hh=h%12;if(hh===0)hh=12;return hh+':'+m+' '+ap;}
+function blockMinutes(s){if(!s.from||!s.to)return 0;const f=s.from.split(':'),t=s.to.split(':');return (+t[0]*60+ +t[1])-(+f[0]*60+ +f[1]);}
+function focusMemHTML(f){return '<div class="memitem"><div class="mi-t"><span class="mi-dot '+(f.done?'on':'off')+'">'+(f.done?'✓':'')+'</span>'+esc(f.title)+'</div><div class="mi-meta">'+f.min+' min'+(f.done?' · completed':'')+'</div>'+(f.remark?'<div class="mi-remark">'+esc(f.remark)+'</div>':'')+'</div>';}
+function assignMemHTML(a){return '<div class="memitem"><div class="mi-t"><span class="mi-dot on">✓</span>'+esc(a.title)+'</div>'+(a.remark?'<div class="mi-remark">'+esc(a.remark)+'</div>':'')+'</div>';}
+function schedFormHTML(){
+  const wd=new Date(memState.sel+'T00:00').toLocaleDateString(undefined,{weekday:'long'});
+  return '<div class="sform">'
+    +'<div class="srow"><div style="flex:1"><label>From</label><input type="time" id="sfFrom"></div>'
+    +'<div style="flex:1"><label>To</label><input type="time" id="sfTo"></div></div>'
+    +'<label>What is it?</label><input type="text" id="sfDesc" placeholder="e.g. Structures lecture" maxlength="80">'
+    +'<label style="margin-top:10px">Type</label>'
+    +'<div class="seg" id="sfType"><button data-v="Class" class="on">Class</button><button data-v="Work">Work</button><button data-v="Study">Study</button><button data-v="Other">Other</button></div>'
+    +'<label class="srep"><input type="checkbox" id="sfRep"> Repeats every '+wd+'</label>'
+    +'<button class="sadd" onclick="addScheduleBlock()">Add block</button>'
+    +'<button class="addblock" style="margin-top:8px" onclick="closeSchedForm()">Cancel</button></div>';
+}
+function openSchedForm(){schedFormOpen=true;renderMemDetail();}
+function closeSchedForm(){schedFormOpen=false;renderMemDetail();}
+function addScheduleBlock(){
+  const from=document.getElementById('sfFrom').value,to=document.getElementById('sfTo').value;
+  const desc=document.getElementById('sfDesc').value.trim();
+  const tb=document.querySelector('#sfType .on');const type=tb?tb.dataset.v:'Other';
+  const rep=document.getElementById('sfRep').checked;
+  if(!from||!to||!desc){toast('Add a start time, end time, and what it is.');return;}
+  if(to<=from){toast('End time should be after the start.');return;}
+  const key=memState.sel;const entry={id:uid(),from,to,desc,type,repeatWeekly:rep};
+  if(rep){entry.weekday=new Date(key+'T00:00').getDay();entry.start=key;}else{entry.date=key;}
+  state.schedule.push(entry);save();schedFormOpen=false;renderMemories();
+  toast(rep?'Added — repeats weekly.':'Block added.');
+}
+function removeScheduleBlock(id){
+  const s=find(state.schedule,id);
+  if(s&&s.repeatWeekly&&!confirm('Remove this weekly block from every '+new Date(memState.sel+'T00:00').toLocaleDateString(undefined,{weekday:'long'})+'?'))return;
+  state.schedule=state.schedule.filter(x=>x.id!==id);save();renderMemories();
+}
+function renderMemDetail(){
+  const box=document.getElementById('memDetail');
+  if(!memState.sel){box.innerHTML='<div class="empty"><div class="em">🗓️</div><p>Tap a day to plan it or look back on it.</p></div>';return;}
+  const key=memState.sel,d=dayData(key);
+  const nice=new Date(key+'T00:00').toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
+  let html='<div class="memdate">'+nice+'</div>';
+  // schedule (editable)
+  const blocks=scheduleForDate(key);
+  html+='<div class="memsec">Schedule</div>';
+  if(blocks.length){
+    let tot=0;
+    blocks.forEach(s=>{const m=blockMinutes(s);if(m>0)tot+=m;
+      html+='<div class="sblock t-'+(s.type||'Other')+'"><div class="sb-time">'+fmt12(s.from)+' – '+fmt12(s.to)+'</div>'
+        +'<div class="sb-body"><div class="sb-desc">'+esc(s.desc||'')+'</div><div class="sb-tags"><span class="sb-type">'+esc(s.type||'Other')+'</span>'
+        +(s.repeatWeekly?'<span class="sb-rep">weekly</span>':'')+'</div></div>'
+        +'<button class="sb-x" onclick="removeScheduleBlock(\''+s.id+'\')">×</button></div>';});
+    if(tot>0)html+='<div class="schetot">'+(Math.round(tot/6)/10)+' h scheduled</div>';
+  }else{html+='<div class="hint" style="text-align:left;margin:0 2px 8px">No blocks yet for this day.</div>';}
+  html+= schedFormOpen? schedFormHTML() : '<button class="addblock" onclick="openSchedForm()">+ Add a time block</button>';
+  // activity (the memory)
+  if(d.keystone||d.focuses.length||d.adone.length){
+    html+='<div class="memsec">What you did</div>';
+    if(d.keystone)html+='<div class="memkey">🌿 '+esc((state.keystone&&state.keystone.name)||'Keystone habit')+' — done</div>';
+    if(d.focuses.length){d.focuses.forEach(f=>html+=focusMemHTML(f));}
+    if(d.adone.length){d.adone.forEach(a=>html+=assignMemHTML(a));}
+  }
+  box.innerHTML=html;
+}
+
 /* ---------- forms / tabs ---------- */
 function switchTab(t){
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));
   document.getElementById('view-today').classList.toggle('hide',t!=='today');
   document.getElementById('view-assign').classList.toggle('hide',t!=='assign');
+  document.getElementById('view-memories').classList.toggle('hide',t!=='memories');
   closeForms();
+  if(t==='memories')renderMemories();
+  if(t==='today')renderCheckin();
 }
 function openTodayForm(){closeForms();document.getElementById('todayForm').classList.add('show');document.getElementById('todayAdd').classList.add('hide');document.getElementById('tfTitle').focus();}
 function openAssignForm(){closeForms();document.getElementById('assignForm').classList.add('show');document.getElementById('assignAdd').classList.add('hide');document.getElementById('afTitle').focus();}
@@ -730,9 +1340,22 @@ function init(){
   // migrate older saves that predate the keystone habit
   if(!state.keystone)state.keystone={name:null,history:{}};
   if(!state.keystone.history)state.keystone.history={};
-  // resume running timers from saved remain (they were paused on reload for safety)
-  state.focuses.forEach(x=>{if(x.running){x.running=false;}});
-  renderKeystone();renderStreak();renderToday();renderAssign();
+  // migrate focuses/assignments to the memory model (date stamps + remarks)
+  const tk=todayKey();
+  state.focuses.forEach(x=>{
+    if(!x.date)x.date=tk;              // undated focuses belong to today
+    if(x.remark==null)x.remark='';
+    if(x.remarkOpen==null)x.remarkOpen=false;
+    if(x.running)x.running=false;      // resume safety
+  });
+  state.assignments.forEach(a=>{
+    if(a.remark==null)a.remark='';
+    if(a.remarkOpen==null)a.remarkOpen=false;
+    if(a.doneDate===undefined)a.doneDate=a.done?tk:null;
+  });
+  if(!Array.isArray(state.schedule))state.schedule=[];
+  save();
+  renderKeystone();renderStreak();renderToday();renderAssign();renderCheckin();
   // default due date = today
   document.getElementById('afDue').value=todayKey();
 }
