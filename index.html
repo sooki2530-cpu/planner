@@ -465,8 +465,9 @@
 <div class="chat hide" id="chatPanel">
   <div class="chat-top">
     <div class="avatar" id="chatAvatar">C</div>
-    <div class="who"><b id="chatName">Coach</b><small>reads your real progress</small></div>
+    <div class="who"><b id="chatName">Coach</b><small>saved · reads your real progress</small></div>
     <button class="cbtn" onclick="coachRename()">Rename</button>
+    <button class="cbtn" onclick="coachClear()">Clear</button>
     <button class="cx" onclick="closeChat()">×</button>
   </div>
   <div class="chat-msgs" id="chatMsgs"></div>
@@ -505,7 +506,7 @@ const KEY='dayplan_v2';
 let state=load();
 function load(){
   try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return s;}catch(e){}
-  return {focuses:[],assignments:[],streak:0,lastActive:null,graceUsed:false,lastQuoteDay:null,keystone:{name:null,history:{}},schedule:[],coach:{name:null},moods:{}};
+  return {focuses:[],assignments:[],streak:0,lastActive:null,graceUsed:false,lastQuoteDay:null,keystone:{name:null,history:{}},schedule:[],coach:{name:null},moods:{},coachChat:[]};
 }
 function save(){localStorage.setItem(KEY,JSON.stringify(state));cloudSave();}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
@@ -1481,23 +1482,30 @@ function renderChat(){
   box.innerHTML=chatHistory.map(m=>'<div class="bub '+(m.role==='user'?'me':'coach')+'">'+esc(m.content)+'</div>').join('');
   box.scrollTop=box.scrollHeight;
 }
-function pushMsg(role,content){chatHistory.push({role,content});renderChat();}
+function pushMsg(role,content){chatHistory.push({role,content});if(chatHistory.length>200)chatHistory.splice(0,chatHistory.length-200);save();renderChat();}
 function openChat(){
   if(!auth){toast('Sign in first so your coach can see your plan.');return;}
   document.getElementById('chatPanel').classList.remove('hide');
   if(!state.coach||!state.coach.name){startNaming();return;}
   syncCoachHeader();
-  if(!chatHistory.length){renderChat();coachKickoff();}else renderChat();
+  renderChat();
+  if(!chatHistory.length)coachKickoff();
   document.getElementById('chatInput').focus();
 }
 function closeChat(){document.getElementById('chatPanel').classList.add('hide');}
 function startNaming(){
   document.getElementById('chatName').textContent='Your coach';
   document.getElementById('chatAvatar').textContent='?';
-  chatHistory=[];pushMsg('assistant',"Hey. I'm about to become your coach, and I don't do fluff. Before we start — what do you want to call me?");
+  chatHistory.length=0;pushMsg('assistant',"Hey. I'm about to become your coach, and I don't do fluff. Before we start — what do you want to call me?");
   awaitingName=true;document.getElementById('chatInput').focus();
 }
 function coachRename(){awaitingName=true;pushMsg('assistant','What should my new name be? Type it below.');document.getElementById('chatInput').focus();}
+function coachClear(){
+  if(!chatHistory.length){toast('Nothing to clear yet.');return;}
+  if(!confirm('Delete this whole conversation? This cannot be undone.'))return;
+  chatHistory.length=0;save();renderChat();awaitingName=false;
+  toast('Conversation cleared.');
+}
 function coachSend(){
   const inp=document.getElementById('chatInput');const text=inp.value.trim();if(!text)return;inp.value='';
   if(awaitingName){
@@ -1557,6 +1565,8 @@ function init(){
   if(!Array.isArray(state.schedule))state.schedule=[];
   if(!state.coach)state.coach={name:null};
   if(!state.moods)state.moods={};
+  if(!Array.isArray(state.coachChat))state.coachChat=[];
+  chatHistory=state.coachChat; // the saved conversation is the live one
   save();
   renderKeystone();renderStreak();renderToday();renderAssign();renderCheckin();
   // default due date = today
