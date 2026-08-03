@@ -1424,9 +1424,9 @@ function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>'
 const API='https://planner-server-production-51e1.up.railway.app';
 let auth=(function(){try{return JSON.parse(localStorage.getItem('dayplan_auth'));}catch(e){return null;}})();
 function saveAuth(a){auth=a;localStorage.setItem('dayplan_auth',JSON.stringify(a));}
-let cloudTimer=null,cloudPending=false;
+let cloudTimer=null,cloudPending=false,ready=false;
 function cloudSave(){
-  if(!auth)return;
+  if(!auth||!ready)return;   // never push to cloud until the real data has finished loading
   cloudPending=true;clearTimeout(cloudTimer);
   cloudTimer=setTimeout(pushCloud,1800);
 }
@@ -1571,6 +1571,7 @@ function init(){
   renderKeystone();renderStreak();renderToday();renderAssign();renderCheckin();
   // default due date = today
   document.getElementById('afDue').value=todayKey();
+  ready=true;   // safe to sync now that real data is loaded
 }
 boot();
 window.addEventListener('resize',()=>{const cv=document.getElementById('confetti');cv.width=innerWidth;cv.height=innerHeight;});
